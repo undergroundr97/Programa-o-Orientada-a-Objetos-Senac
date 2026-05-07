@@ -20,6 +20,12 @@ public class CartaoCredito {
                 this.limiteDisponivel += novoLimite;
             }
         }
+        public void removerLimite(Double valor){
+            limiteDisponivel -= valor;
+        }
+        public void adicionarLimite(Double valor){
+            limiteDisponivel += valor;
+        }
 
     public Double getLimiteDisponivel() {
         return limiteDisponivel;
@@ -31,6 +37,13 @@ public class CartaoCredito {
 
     public String getNumeroCartao() {
         return numeroCartao;
+    }
+
+    public void dadosCartao(){
+        System.out.println("Dados do cartão: ");
+        System.out.println("NUMERO CARTAO: " + getNumeroCartao());
+        System.out.println("TITULAR: " + getTitular());
+        System.out.println("SALDO DISPONIVEL: " +  getLimiteDisponivel());
     }
 
 }

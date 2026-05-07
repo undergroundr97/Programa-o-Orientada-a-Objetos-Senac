@@ -23,7 +23,15 @@ public class Main {
         }
         System.out.println("CVV: " + cvv);
         System.out.println("NUMERO CARTAO " + digitosCartao);
-//        CartaoCredito cartaoCredito = new CartaoCredito(digitosCartao, "Vitor", 5000.0, "331" )
+        CartaoCredito cartaoCredito = new CartaoCredito(digitosCartao, "Vitor", 5000.0, cvv );
+        ProcessadorPegamento processadorPegamento = new ProcessadorPegamento(cartaoCredito);
+        System.out.println("Realizar venda de 4000, saldo atual: " + cartaoCredito.getLimiteDisponivel());
+        processadorPegamento.executarVenda(2000.0);
+        System.out.println("Saldo atual do cartão: " + cartaoCredito.getLimiteDisponivel());
+        System.out.println("Realizar a venda de 4000, saldo atual: " + cartaoCredito.getLimiteDisponivel());
+        processadorPegamento.executarVenda(4000.0);
+        cartaoCredito.dadosCartao();
+
 
     }
 }
