@@ -37,5 +37,11 @@ public class Main {
         processadorPegamento.estornarVenda(5000.0);
         System.out.println("Novo limite: R$" + cartaoCredito.getLimiteDisponivel());
 
+        System.out.println("-------------------------------");
+        System.out.println("Alterar limite do cartão para R$10000.0: ");
+        cartaoCredito.alterarLimite(10000.0);
+        System.out.println("Novo limite: " + cartaoCredito.getLimiteDisponivel());
+        System.out.println("Tentar modificar o limite para um numero negativo R$-2000.0: ");
+        cartaoCredito.alterarLimite(-2000.0);
     }
 }
