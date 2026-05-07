@@ -17,7 +17,7 @@ public class CartaoCredito {
             if(novoLimite < 0 ){
                 System.out.println("Valor incorreto!");
             } else {
-                this.limiteDisponivel = novoLimite;
+                this.limiteDisponivel += novoLimite;
             }
         }
 
