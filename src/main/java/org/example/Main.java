@@ -36,12 +36,10 @@ public class Main {
         System.out.println("Estornando R$5000.0");
         processadorPegamento.estornarVenda(5000.0);
         System.out.println("Novo limite: R$" + cartaoCredito.getLimiteDisponivel());
-
         System.out.println("-------------------------------");
-        System.out.println("Alterar limite do cartão para R$10000.0: ");
-        cartaoCredito.alterarLimite(10000.0);
-        System.out.println("Novo limite: " + cartaoCredito.getLimiteDisponivel());
-        System.out.println("Tentar modificar o limite para um numero negativo R$-2000.0: ");
-        cartaoCredito.alterarLimite(-2000.0);
+        System.out.println("Estornando(R$ -20000.0) valor negativo (erro no sistema de processamento) " + cartaoCredito.getLimiteDisponivel());
+        processadorPegamento.estornarVenda(-20000.0);
+
+
     }
 }

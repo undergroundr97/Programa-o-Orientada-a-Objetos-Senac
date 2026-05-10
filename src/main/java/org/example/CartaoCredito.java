@@ -15,17 +15,12 @@ public class CartaoCredito {
 
         public void alterarLimite(Double novoLimite){
             if(novoLimite < 0 ){
-                System.out.println("Valor incorreto!");
+                System.out.println("LIMITE NÃO PODE SER NEGATIVO!");
             } else {
-                this.limiteDisponivel += novoLimite;
+                this.limiteDisponivel = novoLimite;
             }
         }
-        public void removerLimite(Double valor){
-            limiteDisponivel -= valor;
-        }
-        public void adicionarLimite(Double valor){
-            limiteDisponivel += valor;
-        }
+
 
     public Double getLimiteDisponivel() {
         return limiteDisponivel;
