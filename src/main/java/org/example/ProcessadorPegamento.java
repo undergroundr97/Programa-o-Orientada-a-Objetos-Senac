@@ -18,6 +18,10 @@ public class ProcessadorPegamento {
 
     public void estornarVenda(Double valor){
         double novoLimite = cartaoCredito.getLimiteDisponivel() + valor;
-        cartaoCredito.alterarLimite(novoLimite);
+        if(novoLimite < cartaoCredito.getLimiteDisponivel()) {
+            System.out.println("Transação Negada!");
+        } else {
+            cartaoCredito.alterarLimite(novoLimite);
+        }
     };
 }

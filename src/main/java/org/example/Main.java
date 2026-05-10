@@ -39,7 +39,10 @@ public class Main {
         System.out.println("-------------------------------");
         System.out.println("Estornando(R$ -20000.0) valor negativo (erro no sistema de processamento) " + cartaoCredito.getLimiteDisponivel());
         processadorPegamento.estornarVenda(-20000.0);
-
+        System.out.println("Estornando (-2000)");
+        System.out.println("Limite cartao: ");
+        processadorPegamento.estornarVenda(-2000.0);
+//        cartaoCredito.alterarLimite(-10000.0);
 
     }
 }
