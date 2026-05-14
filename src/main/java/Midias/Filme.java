@@ -46,8 +46,20 @@ public class Filme extends Midia implements Reproduzivel, Baixavel {
 
     @Override
     public void darPlay() {
-        System.out.println("Reproduzindo Midia...");
+        System.out.println("           TELA           ");
+        System.out.println("|-------------------------|");
+//            int random = (int) (Math.random() * 2);
+            for (int j = 0; j < 8 ; j++) {
+                int random = (int) (Math.random() * 2);
+                if(random % 2 == 0 ){
+                    System.out.print("\\o\\");
+                } else {
+                    System.out.print(" /o/");
+                }
+        }
+        System.out.println();
     }
+
 
     @Override
     public double calcularCusto() {

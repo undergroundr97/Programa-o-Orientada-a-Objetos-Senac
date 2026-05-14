@@ -11,13 +11,14 @@ public class Main {
         Filme filme = new Filme("A casa dos mortos", 139, "4K");
         Musica musica = new Musica("Um minuto para o fim do mundo", 5, "CPM22");
 
-        processarPlayer(filme);
+//        processarPlayer(filme);
 
-        processarPlayer(musica);
+//        processarPlayer(musica);
 
-        processarDownlaod(filme);
+        musica.darPlay();
 
-
+//        filme.darPlay();
+        filme.realizarDownload();
     }
 
     static void processarPlayer(Reproduzivel item){
