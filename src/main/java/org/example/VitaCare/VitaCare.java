@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class VitaCare {
@@ -67,23 +68,76 @@ public class VitaCare {
                         }
                     }
                     listaUsuarios.add(titular);
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+                }
+                case 2 -> {
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum beneficiário cadastrado ainda!");
+                        System.out.println("Voltando ao menu...");
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e){
+                            e.getMessage();
+                        }
+
+                    } else {
+                        System.out.println("Selecione um usuário para calcular a sua mensalidade: ");
+                        Integer index = 0;
+                        listaUsuarios.forEach( usuario -> {
+                            System.out.println((index + 1) + " - " + usuario.getNome());
+                        });
+                        Integer usuarioSelecioando = InputValidator.getClienteInput();
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
+                        Double mensalidadeDoBeneficiario = 0.0;
+                        System.out.println("Você selecionou: " + beneficiarioSelecionado.getNome());
+                        if(beneficiarioSelecionado instanceof Titular){
+                            System.out.println("O usuario possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " dependentes");
+                            if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()){
+                                for (Dependente dependenteBeneficiario :
+                                        ((Titular) beneficiarioSelecionado).getListaDependentes()) {
+                                    mensalidadeDoBeneficiario += dependenteBeneficiario.valorMensalidade();
+                                    System.out.println("Mensalidade do dependente: " + dependenteBeneficiario.valorMensalidade());
+                                }
+                            }
+                        }
+                        mensalidadeDoBeneficiario += ((Titular) beneficiarioSelecionado).valorMensalidade();
+                        System.out.println("Mensalidade do titular: " + ((Titular) beneficiarioSelecionado).valorMensalidade());
+
+                        System.out.println("Calculando mensalidade...");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e){
+                            e.getMessage();
+                        }
+                        System.out.println("Sua mensalidade e de: " + mensalidadeDoBeneficiario);
+                    }
+                    System.out.println("Redirecionando ao menu... ");
+                    try{
+                        Thread.sleep(500);
+                    } catch (InterruptedException e){
+                        e.getMessage();
+                    }
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
                 }
             }
+
         }  while (opcaoCliente != 0);
 
 
 
-            Double  totalMensalidade = 0.0;
-        System.out.println("Calculando o total mensal do plano... ");
-        for (int i = 0; i < titular.getListaDependentes().size() ; i++) {
-            totalMensalidade += titular.getListaDependentes().get(i).valorMensalidade();
-        }
-        totalMensalidade += titular.valorMensalidade();
-        System.out.println("Seu plano custa mensalmente: R$" + String.format("%.2f", totalMensalidade));
     }
 
     static List<Beneficiario> listaUsuarios = new ArrayList<>();
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
-
+    static {
+        LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
+        LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
+        Titular titular = new Titular("vitor", "12345567890", dataNascimento);
+        Dependente dependente1 = new Dependente("vitor1", "12345556789", dataNascimentoBeneficiario, titular);
+        titular.adicionarDependente(dependente1);
+        listaUsuarios.add(titular);
+    }
 }
