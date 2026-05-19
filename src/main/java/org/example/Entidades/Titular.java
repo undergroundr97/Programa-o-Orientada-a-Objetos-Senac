@@ -1,10 +1,9 @@
 package org.example.Entidades;
 
-import org.example.Cobertura.Cobertura;
+import org.example.Enums.Cobertura;
 import org.example.Interfaces.Internavel;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Titular extends Beneficiario implements Internavel {

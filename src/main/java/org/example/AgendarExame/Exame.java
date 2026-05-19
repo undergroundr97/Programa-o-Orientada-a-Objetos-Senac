@@ -1,6 +1,6 @@
 package org.example.AgendarExame;
 
-import org.example.Cobertura.Cobertura;
+import org.example.Enums.Cobertura;
 
 import java.time.LocalDate;
 

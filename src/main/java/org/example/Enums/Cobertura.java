@@ -1,4 +1,4 @@
-package org.example.Cobertura;
+package org.example.Enums;
 
 public enum Cobertura {
     CONSULTA,

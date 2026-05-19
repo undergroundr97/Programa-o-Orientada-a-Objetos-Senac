@@ -1,10 +1,9 @@
 package org.example.Entidades;
 
-import org.example.Cobertura.Cobertura;
+import org.example.Enums.Cobertura;
 
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.Date;
 
 public abstract class Beneficiario {
     private String nome;
