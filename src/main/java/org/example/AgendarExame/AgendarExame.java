@@ -7,8 +7,11 @@ import org.example.InputValidator.InputValidator;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.example.VitaCare.VitaCare.formatter;
 
 public class AgendarExame {
 
@@ -19,6 +22,7 @@ public class AgendarExame {
     }
 
     public static void criarExame(Beneficiario beneficiario){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println("Bem vindo " + beneficiario.getNome() + " ao agendamento de exames!");
         System.out.println("Sua cobertura e: " + beneficiario.getCobertura());
         switch(beneficiario.getCobertura()){
@@ -49,7 +53,7 @@ public class AgendarExame {
                     System.out.println("Datas disponiveis: ");
                     for (int i = 1; i < 5 ; i++) {
                         LocalDate dataParaExame = dataHoje.plusDays(i);
-                        System.out.println(i + " - " + dataParaExame);
+                        System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                     }
                     Integer diaSelecionado = InputValidator.getClienteInput();
                     while(diaSelecionado < 1 || diaSelecionado > 5){
@@ -57,7 +61,7 @@ public class AgendarExame {
                         diaSelecionado = InputValidator.getClienteInput();
                     }
                     LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                    System.out.println(escolhaStringExame + " marcado(a) para o dia " + dataSelecionada);
+                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                     Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada);
                     listaExames.add(exame);
 
@@ -89,7 +93,7 @@ public class AgendarExame {
                 System.out.println("Datas disponiveis: ");
                 for (int i = 1; i < 5 ; i++) {
                     LocalDate dataParaExame = dataHoje.plusDays(i);
-                    System.out.println(i + " - " + dataParaExame);
+                    System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                 }
                 Integer diaSelecionado = InputValidator.getClienteInput();
                 while(diaSelecionado < 1 || diaSelecionado > 5){
@@ -97,12 +101,12 @@ public class AgendarExame {
                     diaSelecionado = InputValidator.getClienteInput();
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                System.out.println(escolhaStringExame + " marcado(a) para o dia " + dataSelecionada);
+                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                 Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada);
                 listaExames.add(exame);
             }
             case Cobertura.CONSULTA -> {
-                System.out.println("Você pode realizar Exames");
+                System.out.println("Você pode realizar Consultas");
                 System.out.println("O que quer agendar?");
                 System.out.println("1 - Consulta");
                 System.out.println("2 - Cancelar");
@@ -128,7 +132,7 @@ public class AgendarExame {
                 System.out.println("Datas disponiveis: ");
                 for (int i = 1; i < 5 ; i++) {
                     LocalDate dataParaExame = dataHoje.plusDays(i);
-                    System.out.println(i + " - " + dataParaExame);
+                    System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                 }
                 Integer diaSelecionado = InputValidator.getClienteInput();
                 while(diaSelecionado < 1 || diaSelecionado > 5){
@@ -136,7 +140,7 @@ public class AgendarExame {
                     diaSelecionado = InputValidator.getClienteInput();
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                System.out.println(escolhaStringExame + " marcado(a) para o dia " + dataSelecionada);
+                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                 Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada);
                 listaExames.add(exame);
             }

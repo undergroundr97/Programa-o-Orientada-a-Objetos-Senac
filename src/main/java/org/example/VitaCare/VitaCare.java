@@ -1,5 +1,6 @@
 package org.example.VitaCare;
 
+import org.example.AgendarExame.AgendarExame;
 import org.example.Cobertura.Cobertura;
 import org.example.Entidades.Beneficiario;
 import org.example.Entidades.Dependente;
@@ -160,29 +161,94 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 3 -> {
-                    System.out.println("Selecione o beneficiario para verificar cobertura");
-                    Integer index = 0;
-                    listaUsuarios.forEach( usuario -> {
-                        System.out.println((index + 1) + " - " + usuario.getNome());
-                    });
-                    Integer usuarioSelecioando = InputValidator.getClienteInput();
-                    Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
-                    System.out.println("Voce selecionou: " + beneficiarioSelecionado.getNome());
-                    System.out.println("A cobertura deste beneficiario e: " + beneficiarioSelecionado.getCobertura());
-                    if( !((Titular)beneficiarioSelecionado).getListaDependentes().isEmpty()){
-                        System.out.println("Este usuario possui dependentes");
-                        System.out.println("Cheando coberturas... ");
-                        try{
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum beneficiario encontrado!");
+                        System.out.println("Retornando ao menu principal");
+                        try {
                             Thread.sleep(500);
-                        }catch (InterruptedException e){
+                        } catch (InterruptedException e){
                             e.getMessage();
                         }
-                        for (Dependente dependenteBeneficiario :
-                                ((Titular) beneficiarioSelecionado).getListaDependentes()) {
-                            System.out.println("O dependente: " + dependenteBeneficiario.getNome() + " tem cobertura: " + dependenteBeneficiario.getCobertura());
+                    } else {
+                        System.out.println("Selecione o beneficiario para verificar cobertura");
+                        Integer index = 0;
+                        listaUsuarios.forEach(usuario -> {
+                            System.out.println((index + 1) + " - " + usuario.getNome());
+                        });
+                        Integer usuarioSelecioando = InputValidator.getClienteInput();
+                        while(usuarioSelecioando > listaUsuarios.size() || usuarioSelecioando < 0){
+                            System.out.println("Usuario invalido, selecione apenas os disponiveis");
+                            usuarioSelecioando = InputValidator.getClienteInput();
+                        }
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
+                        System.out.println("Voce selecionou: " + beneficiarioSelecionado.getNome());
+                        System.out.println("A cobertura deste beneficiario e: " + beneficiarioSelecionado.getCobertura());
+                        if (!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
+                            System.out.println("Este usuario possui dependentes");
+                            System.out.println("Cheando coberturas... ");
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.getMessage();
+                            }
+                            for (Dependente dependenteBeneficiario :
+                                    ((Titular) beneficiarioSelecionado).getListaDependentes()) {
+                                System.out.println("O dependente: " + dependenteBeneficiario.getNome() + " tem cobertura: " + dependenteBeneficiario.getCobertura());
+                            }
                         }
                     }
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+                }
+                case 4 -> {
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum beneficiario encontrado!");
+                        System.out.println("Voltando ao menu...");
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e){
+                            e.getMessage();
+                        }
+                    } else {
+                        System.out.println("Selecione um usuario: ");
+                        listaUsuarios.forEach( usuario -> {
+                            System.out.println( (listaUsuarios.indexOf(usuario) + 1) + " - " +usuario.getNome());
+                        });
+                        Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        while(usuarioSelecionado > listaUsuarios.size() || usuarioSelecionado < 0){
+                            System.out.println("Usuario invalido, selecione apenas usuario da lista");
+                            usuarioSelecionado = InputValidator.getClienteInput();
+                        }
+                        Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
+                        List<Beneficiario> listaDaFamilia = new ArrayList<>();
+                        System.out.println("Você selecionou " + beneficiario.getNome());
+                        listaDaFamilia.add(beneficiario);
+                        if (((Titular) beneficiario).getListaDependentes().isEmpty()){
+                            System.out.println("O beneficiaro nao tem dependentes");
+                        } else {
+                            System.out.println("O beneficiario possui " + ((Titular) beneficiario).getListaDependentes().size() + " dependentes.");
+                            for (Dependente dependentes : ((Titular) beneficiario).getListaDependentes()) {
+                                listaDaFamilia.add(dependentes);
+                            }
+                        }
+                        System.out.println("Selecione o beneficiario para agendar a consulta: ");
+                        int indexBeneficiario = 0;
+                        listaDaFamilia.forEach(beneficiarioFamilia -> {
+                            System.out.println( listaDaFamilia.indexOf(beneficiarioFamilia) + 1 + " - " + beneficiarioFamilia.getNome());
+                        });
+                        Integer escolhaBeneficiario = InputValidator.getClienteInput();
+                        while(escolhaBeneficiario < 0 || escolhaBeneficiario > listaDaFamilia.size()){
+                            System.out.println("Beneficiario invalido");
+                            escolhaBeneficiario = InputValidator.getClienteInput();
+                        }
+                        Beneficiario beneficiarioParaConsulta = listaDaFamilia.get(escolhaBeneficiario - 1);
+                        AgendarExame.criarExame(beneficiarioParaConsulta);
 
+                    }
+
+
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
                 }
             }
 
@@ -193,7 +259,7 @@ public class VitaCare {
     }
 
     static List<Beneficiario> listaUsuarios = new ArrayList<>();
-    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
     static {
         LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
