@@ -1,4 +1,4 @@
-package org.InputValidor;
+package org.exmaple.InputValidor;
 
 import java.util.Scanner;
 
