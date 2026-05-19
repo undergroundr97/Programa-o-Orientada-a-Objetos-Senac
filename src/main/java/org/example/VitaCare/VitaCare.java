@@ -2,11 +2,13 @@ package org.example.VitaCare;
 
 import org.example.AgendarExame.AgendarExame;
 import org.example.Cobertura.Cobertura;
+import org.example.Delay.DelayTimer;
 import org.example.Entidades.Beneficiario;
 import org.example.Entidades.Dependente;
 import org.example.Entidades.Titular;
 import org.example.InputValidator.InputValidator;
 
+import java.io.Console;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class VitaCare {
     public static void vitaCare(){
+        System.out.println("----------Bem Vindo ao VitaCare----------");
         VitaCareMenu.exibirMenu();
         Integer opcaoCliente = InputValidator.getClienteInput();
         do {
@@ -114,49 +117,50 @@ public class VitaCare {
                     if(listaUsuarios.isEmpty()){
                         System.out.println("Nenhum beneficiário cadastrado ainda!");
                         System.out.println("Voltando ao menu...");
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e){
-                            e.getMessage();
-                        }
+                        DelayTimer.delay(700);
 
                     } else {
-                        System.out.println("Selecione um usuário para calcular a sua mensalidade: ");
-                        Integer index = 0;
+                        System.out.println("Selecione um usuário para gerar resumo:  ");
                         listaUsuarios.forEach( usuario -> {
-                            System.out.println((index + 1) + " - " + usuario.getNome());
+                            System.out.println(listaUsuarios.indexOf(usuario) + 1 + " - " + usuario.getNome());
                         });
                         Integer usuarioSelecioando = InputValidator.getClienteInput();
+                        while(usuarioSelecioando < 0 || usuarioSelecioando > listaUsuarios.size()){
+                            System.out.println("Usuario invalido, selecione um novo usuario");
+                            usuarioSelecioando = InputValidator.getClienteInput();
+                        }
                         Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
                         Double mensalidadeDoBeneficiario = 0.0;
-                        System.out.println("Você selecionou: " + beneficiarioSelecionado.getNome());
+                        System.out.println("Gerando resumo para: " + beneficiarioSelecionado.getNome());
+                        DelayTimer.delay(700);
+                        System.out.println();
+                        System.out.println("Beneficiario: " + beneficiarioSelecionado.getNome());
+                        System.out.println("CPF: " + beneficiarioSelecionado.getCPF());
+                        DelayTimer.delay(700);
+                        System.out.println("O usuario possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " dependentes");
+                        mensalidadeDoBeneficiario += ((Titular) beneficiarioSelecionado).valorMensalidade();
                         if(beneficiarioSelecionado instanceof Titular){
-                            System.out.println("O usuario possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " dependentes");
                             if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()){
-                                for (Dependente dependenteBeneficiario :
-                                        ((Titular) beneficiarioSelecionado).getListaDependentes()) {
+                                System.out.println("Mostrando dependentes...");
+                                DelayTimer.delay(1000);
+                                for (Dependente dependenteBeneficiario : ((Titular) beneficiarioSelecionado).getListaDependentes()) {
+                                    System.out.println("------------------------------------");
+                                    System.out.println("Dependente: " + dependenteBeneficiario.getNome());
+                                    System.out.println("CPF: " + dependenteBeneficiario.getCPF());
                                     mensalidadeDoBeneficiario += dependenteBeneficiario.valorMensalidade();
-                                    System.out.println("Mensalidade do dependente: " + dependenteBeneficiario.valorMensalidade());
+                                    DelayTimer.delay(700);
                                 }
                             }
                         }
-                        mensalidadeDoBeneficiario += ((Titular) beneficiarioSelecionado).valorMensalidade();
-                        System.out.println("Mensalidade do titular: " + ((Titular) beneficiarioSelecionado).valorMensalidade());
-
                         System.out.println("Calculando mensalidade...");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e){
-                            e.getMessage();
-                        }
-                        System.out.println("Sua mensalidade e de: " + mensalidadeDoBeneficiario);
+                        DelayTimer.delay(700);
+                        System.out.println("Mensalidade para o titular: " + beneficiarioSelecionado.getNome()+ " e de: R$ " + mensalidadeDoBeneficiario);
+                        DelayTimer.delay(700);
+                        System.out.println("Digite qualquer tecla para voltar ao menur principal");
+                        scanner.nextLine();
                     }
                     System.out.println("Redirecionando ao menu... ");
-                    try{
-                        Thread.sleep(500);
-                    } catch (InterruptedException e){
-                        e.getMessage();
-                    }
+                    DelayTimer.delay(700);
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }
@@ -164,11 +168,7 @@ public class VitaCare {
                     if(listaUsuarios.isEmpty()){
                         System.out.println("Nenhum beneficiario encontrado!");
                         System.out.println("Retornando ao menu principal");
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e){
-                            e.getMessage();
-                        }
+                        DelayTimer.delay(700);
                     } else {
                         System.out.println("Selecione o beneficiario para verificar cobertura");
                         Integer index = 0;
@@ -186,11 +186,7 @@ public class VitaCare {
                         if (!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
                             System.out.println("Este usuario possui dependentes");
                             System.out.println("Cheando coberturas... ");
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                e.getMessage();
-                            }
+                            DelayTimer.delay(700);
                             for (Dependente dependenteBeneficiario :
                                     ((Titular) beneficiarioSelecionado).getListaDependentes()) {
                                 System.out.println("O dependente: " + dependenteBeneficiario.getNome() + " tem cobertura: " + dependenteBeneficiario.getCobertura());
@@ -204,11 +200,7 @@ public class VitaCare {
                     if(listaUsuarios.isEmpty()){
                         System.out.println("Nenhum beneficiario encontrado!");
                         System.out.println("Voltando ao menu...");
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e){
-                            e.getMessage();
-                        }
+                        DelayTimer.delay(700);
                     } else {
                         System.out.println("Selecione um usuario: ");
                         listaUsuarios.forEach( usuario -> {
@@ -255,11 +247,7 @@ public class VitaCare {
                     if(AgendarExame.getListaExames().isEmpty()){
                         System.out.println("Nenhum exame agendado!");
                         System.out.println("Retornando ao menu principal");
-                        try {
-                            Thread.sleep(700);
-                        } catch (InterruptedException e ){
-                            e.getMessage();
-                        }
+                        DelayTimer.delay(700);
                     } else {
                         System.out.println("Mostrando dos exames agendados: ");
                         AgendarExame.getListaExames().forEach(exame -> {
