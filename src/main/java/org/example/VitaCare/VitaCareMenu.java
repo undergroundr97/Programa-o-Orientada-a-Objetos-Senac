@@ -7,6 +7,7 @@ public class VitaCareMenu {
         System.out.println("3 - Verificar Coberturas de um Beneficiario");
         System.out.println("4 - Agendar Consulta para Beneficiario");
         System.out.println("5 - Verificar exames agendados no sistema");
+        System.out.println("6 - Adicionar Beneficiario a um Titular Existente");
         System.out.println("0 - Sair");
     }
 

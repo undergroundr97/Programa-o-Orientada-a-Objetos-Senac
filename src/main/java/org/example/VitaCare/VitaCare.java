@@ -280,6 +280,81 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
 
                 }
+                case 6 -> {
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum usuario cadastrado, voltando ao menu...");
+                        DelayTimer.delay(700);
+                    } else {
+                        System.out.println("Selecione um titular: ");
+                        listaUsuarios.forEach( usuario -> {
+                            System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - "+ usuario.getNome());
+                        });
+                        Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        while(usuarioSelecionado <= 0 || usuarioSelecionado > listaUsuarios.size()){
+                            System.out.println("Usuario invalido, selecione novamente");
+                            usuarioSelecionado = InputValidator.getClienteInput();
+                        }
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado -1 );
+                        if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() > 3){
+                            System.out.println("Impossível adicionar novo dependente");
+                            System.out.println("Voltando para o menu...");
+                            DelayTimer.delay(700);
+                        } else {
+                            System.out.println("Digite o tipo do dependente:");
+                            TipoDependente tipoDependente;
+                            System.out.println("1 - FILHO");
+                            System.out.println("2 - CONJUGE");
+                            Integer tipoDependenteSelecionado = InputValidator.getClienteInput();
+                            while(tipoDependenteSelecionado < 1 || tipoDependenteSelecionado > 2){
+                                System.out.println("OpcaoInvalida");
+                                tipoDependenteSelecionado = InputValidator.getClienteInput();
+                            }
+                            if(tipoDependenteSelecionado == 1){
+                                tipoDependente = TipoDependente.FILHO;
+                            } else {
+                                tipoDependente = TipoDependente.CONJUGE;
+                            }
+                            System.out.println("Nome do dependente: ");
+                            String nomeDependente = scanner.nextLine();
+                            System.out.println("Digite o CPF do dependente(formato 9dígitos, sem pontos): ");
+                            String cpfDependente = scanner.nextLine();
+                            System.out.println("Digite a data nascimento");
+                            String stringNascimentoDependente = scanner.nextLine();
+                            LocalDate dataNascimentoDependente = LocalDate.parse(stringNascimentoDependente, formatter);
+                            Integer idadeAtual = (Year.now().getValue()) - dataNascimentoDependente.getYear();
+                            if(tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25){
+                                System.out.println("Filhos só podem ser dependentes até 24anos!");
+                                break;
+                            }
+                            System.out.println("Digite o tipo de cobertura: ");
+                            System.out.println("1 - EXAME");
+                            System.out.println("2 - CONSULTA");
+                            System.out.println("3 - TOTAL");
+                            Integer tipoCobertura = InputValidator.getClienteInput();
+                            while(tipoCobertura < 1 || tipoCobertura > 3){
+                                System.out.println("Selecione apenas as opcoes");
+                                tipoCobertura = InputValidator.getClienteInput();
+                            }
+                            Cobertura cobertura;
+                            if(tipoCobertura == 1){
+                                cobertura = Cobertura.EXAME;
+                            } else if (tipoCobertura == 2){
+                                cobertura = Cobertura.CONSULTA;
+                            } else {
+                                cobertura = Cobertura.TOTAL;
+                            }
+                            Dependente dependente = new Dependente(nomeDependente,cpfDependente,dataNascimentoDependente,
+                                    (Titular) beneficiarioSelecionado, cobertura, tipoDependente);
+                            ((Titular) beneficiarioSelecionado).adicionarDependente(dependente);
+                        }
+
+                        System.out.println("Voltando ao menu...");
+                        DelayTimer.delay(700);
+                        VitaCareMenu.exibirMenu();
+                        opcaoCliente = InputValidator.getClienteInput();
+
+                    }
+                }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");
                     VitaCareMenu.exibirMenu();
