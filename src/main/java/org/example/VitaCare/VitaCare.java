@@ -247,6 +247,34 @@ public class VitaCare {
                     }
 
 
+
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+                }
+                case 5 ->{
+                    if(AgendarExame.getListaExames().isEmpty()){
+                        System.out.println("Nenhum exame agendado!");
+                        System.out.println("Retornando ao menu principal");
+                        try {
+                            Thread.sleep(700);
+                        } catch (InterruptedException e ){
+                            e.getMessage();
+                        }
+                    } else {
+                        System.out.println("Mostrando dos exames agendados: ");
+                        AgendarExame.getListaExames().forEach(exame -> {
+                            System.out.println((AgendarExame.getListaExames().indexOf(exame) + 1) +" - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
+                        });
+                        System.out.println("Digite qualquer tecla para voltar ao menu");
+                        String confirma = scanner.nextLine();
+                    }
+
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+
+                }
+                default -> {
+                    System.out.println("Nenhuma opcao valida selecionada!");
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }

@@ -16,7 +16,11 @@ import static org.example.VitaCare.VitaCare.formatter;
 public class AgendarExame {
 
     public static List<Exame> listaExames = new ArrayList<>();
-
+    static {
+        LocalDate date = LocalDate.of(2020, 05, 15);
+        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date);
+        listaExames.add(exame);
+    }
     public static List<Exame> getListaExames() {
         return listaExames;
     }

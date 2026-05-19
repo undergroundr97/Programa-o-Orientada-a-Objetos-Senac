@@ -13,4 +13,16 @@ public class Exame {
         this.tipoExame = tipoExame;
         this.dataDoExame = dataDoExame;
     }
+
+    public LocalDate getDataDoExame() {
+        return dataDoExame;
+    }
+
+    public String getNomeSolicitante() {
+        return nomeSolicitante;
+    }
+
+    public Cobertura getTipoExame() {
+        return tipoExame;
+    }
 }
