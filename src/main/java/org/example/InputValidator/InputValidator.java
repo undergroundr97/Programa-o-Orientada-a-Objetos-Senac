@@ -1,4 +1,4 @@
-package org.exmaple.InputValidor;
+package org.example.InputValidator;
 
 import java.util.Scanner;
 
