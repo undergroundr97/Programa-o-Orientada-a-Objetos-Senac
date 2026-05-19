@@ -1,10 +1,12 @@
 package org.example.VitaCare;
 
+import org.example.Cobertura.Cobertura;
 import org.example.Entidades.Beneficiario;
 import org.example.Entidades.Dependente;
 import org.example.Entidades.Titular;
 import org.example.InputValidator.InputValidator;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,7 +37,25 @@ public class VitaCare {
                     System.out.println("Digite a data de nascimento do titular: ");
                     String dataNascimentoString = scanner.nextLine();
                     LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
-                    Titular titular = new Titular(nomeTitular, cpfTitular, dataNascimento);
+                    System.out.println("Digite o tipo de cobertura: ");
+                    System.out.println("1 - EXAME");
+                    System.out.println("2 - CONSULTA");
+                    System.out.println("3 - TOTAL");
+                    Integer opcaoCoberturaTitular = InputValidator.getClienteInput();
+                    while(opcaoCoberturaTitular < 1 && opcaoCoberturaTitular > 3){
+                        System.out.println("Selecione apenas as opcoes");
+                        opcaoCoberturaTitular = InputValidator.getClienteInput();
+                    }
+                    Cobertura coberturaTitular;
+                    if(opcaoCoberturaTitular == 1){
+                        coberturaTitular = Cobertura.EXAME;
+                    } else if (opcaoCoberturaTitular == 2){
+                        coberturaTitular= Cobertura.CONSULTA;
+                    } else {
+                        coberturaTitular = Cobertura.TOTAL;
+                    }
+
+                    Titular titular = new Titular(nomeTitular, cpfTitular, dataNascimento, coberturaTitular);
                     System.out.println("Deseja adicionar dependentes?");
                     String adicionarDependentes = scanner.nextLine();
                     while(!adicionarDependentes.equalsIgnoreCase("s") && !adicionarDependentes.equalsIgnoreCase("n")){
@@ -62,8 +82,26 @@ public class VitaCare {
                             System.out.println("Digite a data nascimento");
                             String stringNascimentoDependente = scanner.nextLine();
                             LocalDate dataNascimentoDependente = LocalDate.parse(stringNascimentoDependente, formatter);
+                            System.out.println("Digite o tipo de cobertura: ");
+                            System.out.println("1 - EXAME");
+                            System.out.println("2 - CONSULTA");
+                            System.out.println("3 - TOTAL");
+                            Integer tipoCobertura = InputValidator.getClienteInput();
+                            while(tipoCobertura < 1 && tipoCobertura > 3){
+                                System.out.println("Selecione apenas as opcoes");
+                                tipoCobertura = InputValidator.getClienteInput();
+                            }
+                            Cobertura cobertura;
+                            if(tipoCobertura == 1){
+                                cobertura = Cobertura.EXAME;
+                            } else if (tipoCobertura == 2){
+                                cobertura = Cobertura.CONSULTA;
+                            } else {
+                                cobertura = Cobertura.TOTAL;
+                            }
+
                             Dependente dependente = new Dependente(nomeDependente,cpfDependente,dataNascimentoDependente,
-                                    titular);
+                                    titular, cobertura);
                             titular.adicionarDependente(dependente);
                         }
                     }
@@ -121,6 +159,31 @@ public class VitaCare {
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }
+                case 3 -> {
+                    System.out.println("Selecione o beneficiario para verificar cobertura");
+                    Integer index = 0;
+                    listaUsuarios.forEach( usuario -> {
+                        System.out.println((index + 1) + " - " + usuario.getNome());
+                    });
+                    Integer usuarioSelecioando = InputValidator.getClienteInput();
+                    Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
+                    System.out.println("Voce selecionou: " + beneficiarioSelecionado.getNome());
+                    System.out.println("A cobertura deste beneficiario e: " + beneficiarioSelecionado.getCobertura());
+                    if( !((Titular)beneficiarioSelecionado).getListaDependentes().isEmpty()){
+                        System.out.println("Este usuario possui dependentes");
+                        System.out.println("Cheando coberturas... ");
+                        try{
+                            Thread.sleep(500);
+                        }catch (InterruptedException e){
+                            e.getMessage();
+                        }
+                        for (Dependente dependenteBeneficiario :
+                                ((Titular) beneficiarioSelecionado).getListaDependentes()) {
+                            System.out.println("O dependente: " + dependenteBeneficiario.getNome() + " tem cobertura: " + dependenteBeneficiario.getCobertura());
+                        }
+                    }
+
+                }
             }
 
         }  while (opcaoCliente != 0);
@@ -135,9 +198,11 @@ public class VitaCare {
     static {
         LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
         LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
-        Titular titular = new Titular("vitor", "12345567890", dataNascimento);
-        Dependente dependente1 = new Dependente("vitor1", "12345556789", dataNascimentoBeneficiario, titular);
+        Titular titular = new Titular("vitor", "12345567890", dataNascimento, Cobertura.TOTAL);
+        Dependente dependente1 = new Dependente("vitor1", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME);
+        Dependente dependente2 = new Dependente("vitor2", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA);
         titular.adicionarDependente(dependente1);
+        titular.adicionarDependente(dependente2);
         listaUsuarios.add(titular);
     }
 }

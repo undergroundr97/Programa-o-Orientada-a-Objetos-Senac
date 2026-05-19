@@ -10,12 +10,16 @@ public abstract class Beneficiario {
     private String nome;
     private String CPF;
     private LocalDate dataNascimento;
-    Cobertura cobertura = Cobertura.TOTAL;
+    Cobertura cobertura;
 
     public Beneficiario(String nome, String  CPF, LocalDate dataNascimento){
         this.nome = nome;
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
+    }
+
+    public Cobertura getCobertura() {
+        return cobertura;
     }
 
     public String getNome() {
