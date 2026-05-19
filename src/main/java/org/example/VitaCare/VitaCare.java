@@ -263,7 +263,11 @@ public class VitaCare {
                     } else {
                         System.out.println("Mostrando dos exames agendados: ");
                         AgendarExame.getListaExames().forEach(exame -> {
-                            System.out.println((AgendarExame.getListaExames().indexOf(exame) + 1) +" - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
+                            System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) +" - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
+                            if(exame.getDataSaida() != null){
+                                System.out.print(", data experada de saída: " + exame.getDataSaida().format(formatter));
+                            };
+                            System.out.println();
                         });
                         System.out.println("Digite qualquer tecla para voltar ao menu");
                         String confirma = scanner.nextLine();
@@ -292,9 +296,9 @@ public class VitaCare {
     static {
         LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
         LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
-        Titular titular = new Titular("vitor", "12345567890", dataNascimento, Cobertura.TOTAL);
-        Dependente dependente1 = new Dependente("vitor1", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME);
-        Dependente dependente2 = new Dependente("vitor2", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA);
+        Titular titular = new Titular("vitoriNTERNACAO", "12345567890", dataNascimento, Cobertura.INTERNACAO);
+        Dependente dependente1 = new Dependente("vitorEXAME", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME);
+        Dependente dependente2 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA);
         titular.adicionarDependente(dependente1);
         titular.adicionarDependente(dependente2);
         listaUsuarios.add(titular);
