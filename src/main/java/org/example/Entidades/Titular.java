@@ -1,13 +1,14 @@
 package org.example.Entidades;
 
 import org.example.Cobertura.Cobertura;
+import org.example.Interfaces.Internavel;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Titular extends Beneficiario{
+public class Titular extends Beneficiario implements Internavel {
     private Boolean aposentado = false;
-
     private ArrayList<Dependente> listaDependentes = new ArrayList<>();
     public Titular(String nome, String CPF, LocalDate dataNascimento, Cobertura cobertura) {
         super(nome, CPF, dataNascimento);
@@ -34,4 +35,9 @@ public class Titular extends Beneficiario{
         }
     }
 
+
+    @Override
+    public void setInternavel() {
+        cobertura = Cobertura.INTERNACAO;
+    }
 }
