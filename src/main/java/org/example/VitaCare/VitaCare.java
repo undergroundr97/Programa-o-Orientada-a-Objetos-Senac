@@ -229,7 +229,6 @@ public class VitaCare {
                             }
                         }
                         System.out.println("Selecione o beneficiario para agendar a consulta: ");
-                        int indexBeneficiario = 0;
                         listaDaFamilia.forEach(beneficiarioFamilia -> {
                             System.out.println( listaDaFamilia.indexOf(beneficiarioFamilia) + 1 + " - " + beneficiarioFamilia.getNome());
                         });

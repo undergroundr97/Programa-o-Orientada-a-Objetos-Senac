@@ -14,7 +14,7 @@ public class AgendarExame {
     public static List<Exame> listaExames = new ArrayList<>();
     static {
         LocalDate date = LocalDate.of(2020, 05, 15);
-        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor(gerarNomeDoutor()[0],gerarNomeDoutor()[1] ));
+        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor());
         listaExames.add(exame);
     }
     public static List<Exame> getListaExames() {
@@ -65,7 +65,7 @@ public class AgendarExame {
                         System.out.println(i + " - " + dataParaExame.format(formatter));
                     }
                     Integer diaSelecionado = InputValidator.getClienteInput();
-                    while(diaSelecionado < 1 || diaSelecionado > 5){
+                    while(diaSelecionado < 1 || diaSelecionado >= 5){
                         System.out.println("Escolha uma das opcoes disponiveis");
                         diaSelecionado = InputValidator.getClienteInput();
                     }
@@ -93,14 +93,13 @@ public class AgendarExame {
                     System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                 }
                 Integer diaSelecionado = InputValidator.getClienteInput();
-                while(diaSelecionado < 1 || diaSelecionado > 5){
+                while(diaSelecionado < 1 || diaSelecionado >= 5){
                     System.out.println("Escolha uma das opcoes disponiveis");
                     diaSelecionado = InputValidator.getClienteInput();
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor(gerarNomeDoutor()[0],
-                        gerarNomeDoutor()[1]));
+                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor());
                 listaExames.add(exame);
                 }
 
@@ -138,14 +137,13 @@ public class AgendarExame {
                         System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                     }
                     Integer diaSelecionado = InputValidator.getClienteInput();
-                    while(diaSelecionado < 1 || diaSelecionado > 5){
+                    while(diaSelecionado < 1 || diaSelecionado >= 5){
                         System.out.println("Escolha uma das opcoes disponiveis");
                         diaSelecionado = InputValidator.getClienteInput();
                     }
                     LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor(gerarNomeDoutor()[0],
-                        gerarNomeDoutor()[1]));
+                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor());
                     listaExames.add(exame);
 
         }
@@ -179,14 +177,13 @@ public class AgendarExame {
                     System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                 }
                 Integer diaSelecionado = InputValidator.getClienteInput();
-                while(diaSelecionado < 1 || diaSelecionado > 5){
+                while(diaSelecionado < 1 || diaSelecionado >= 5){
                     System.out.println("Escolha uma das opcoes disponiveis");
                     diaSelecionado = InputValidator.getClienteInput();
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor(gerarNomeDoutor()[0],
-                        gerarNomeDoutor()[1]));
+                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor());
                 listaExames.add(exame);
             }
             case Cobertura.CONSULTA -> {
@@ -219,27 +216,17 @@ public class AgendarExame {
                     System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
                 }
                 Integer diaSelecionado = InputValidator.getClienteInput();
-                while(diaSelecionado < 1 || diaSelecionado > 5){
+                while(diaSelecionado < 1 || diaSelecionado >= 5){
                     System.out.println("Escolha uma das opcoes disponiveis");
                     diaSelecionado = InputValidator.getClienteInput();
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor(gerarNomeDoutor()[0],
-                        gerarNomeDoutor()[1]));
+                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor());
                 listaExames.add(exame);
             }
         }
 
     }
 
-    static String[] gerarNomeDoutor(){
-        String[] nomeDoutores = new String[]{"Fulano", "Siclano", "Deutrano", "Zezin", "Beltrano", "Mariazinha", "Etc"};
-        Integer nomeAleatorio = (int) (Math.random() * nomeDoutores.length);
-        String[] especialidades = new String[]{"Cardiologia", "Dermatologia", "Pediatria", "Ortopedia", "Neurologia", "Ginecologia", "Oftalmologia"
-                , "Psiquiatria", "Endocrinologia", "Gastroenterologia", "Oncologia", "Urologia", "Otorrinolaringologia", "Reumatologia", "Nefrologia"};
-        Integer especialidadeAleatoria = (int) (Math.random() * nomeDoutores.length);
-        String[] stringNomeDoutor = new String[]{nomeDoutores[nomeAleatorio], especialidades[especialidadeAleatoria]};
-        return stringNomeDoutor;
-    }
 }
