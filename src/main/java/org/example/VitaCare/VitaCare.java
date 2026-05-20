@@ -1,6 +1,5 @@
 package org.example.VitaCare;
 
-import com.sun.security.jgss.GSSUtil;
 import org.example.AgendarExame.AgendarExame;
 import org.example.Enums.Cobertura;
 import org.example.Delay.DelayTimer;
@@ -10,7 +9,6 @@ import org.example.Entidades.Titular;
 import org.example.Enums.TipoDependente;
 import org.example.InputValidator.InputValidator;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -130,12 +128,9 @@ public class VitaCare {
                         listaUsuarios.forEach( usuario -> {
                             System.out.println(listaUsuarios.indexOf(usuario) + 1 + " - " + usuario.getNome());
                         });
-                        Integer usuarioSelecioando = InputValidator.getClienteInput();
-                        while(usuarioSelecioando < 0 || usuarioSelecioando > listaUsuarios.size()){
-                            System.out.println("Usuario invalido, selecione um novo usuario");
-                            usuarioSelecioando = InputValidator.getClienteInput();
-                        }
-                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
+                        Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
                         Double mensalidadeDoBeneficiario = 0.0;
                         System.out.println("Gerando resumo para: " + beneficiarioSelecionado.getNome());
                         DelayTimer.delay(700);
@@ -175,16 +170,12 @@ public class VitaCare {
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     } else {
                         System.out.println("Selecione o beneficiario para verificar cobertura");
-                        Integer index = 0;
                         listaUsuarios.forEach(usuario -> {
                             System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - " + usuario.getNome());
                         });
-                        Integer usuarioSelecioando = InputValidator.getClienteInput();
-                        while(usuarioSelecioando > listaUsuarios.size() || usuarioSelecioando <= 0){
-                            System.out.println("Usuario invalido, selecione apenas os disponiveis");
-                            usuarioSelecioando = InputValidator.getClienteInput();
-                        }
-                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecioando - 1);
+                        Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
                         System.out.println("Voce selecionou: " + beneficiarioSelecionado.getNome());
                         System.out.println("A cobertura deste beneficiario e: " + beneficiarioSelecionado.getCobertura());
                         if (!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
@@ -198,8 +189,8 @@ public class VitaCare {
                             }
                         }
                     }
-                    System.out.println("Digite qualquer tecla para voltar ao menu");
-                    scanner.nextLine();
+                    System.out.println("Voltando ao menu...");
+                    DelayTimer.delay(1000);
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }
@@ -212,10 +203,7 @@ public class VitaCare {
                             System.out.println( (listaUsuarios.indexOf(usuario) + 1) + " - " +usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
-                        while(usuarioSelecionado > listaUsuarios.size() || usuarioSelecionado < 0){
-                            System.out.println("Usuario invalido, selecione apenas usuario da lista");
-                            usuarioSelecionado = InputValidator.getClienteInput();
-                        }
+                        usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
                         Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
                         List<Beneficiario> listaDaFamilia = new ArrayList<>();
                         System.out.println("Você selecionou " + beneficiario.getNome());
@@ -277,10 +265,7 @@ public class VitaCare {
                             System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - "+ usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
-                        while(usuarioSelecionado <= 0 || usuarioSelecionado > listaUsuarios.size()){
-                            System.out.println("Usuario invalido, selecione novamente");
-                            usuarioSelecionado = InputValidator.getClienteInput();
-                        }
+                        usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
                         Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado -1 );
                         if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() >= 3){
                             System.out.println("Impossível adicionar novo dependente");
@@ -348,10 +333,7 @@ public class VitaCare {
                         System.out.println((listaUsuarios.indexOf(usuario)+1) + " - " + usuario.getNome());
                     });
                     Integer usuarioSelecionado = InputValidator.getClienteInput();
-                    while(usuarioSelecionado <= 0 || usuarioSelecionado >= listaUsuarios.size()){
-                        System.out.println("Usuario invalido");
-                        usuarioSelecionado = InputValidator.getClienteInput();
-                    }
+                    usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
                     Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
                     System.out.println("O titular selecioando foi: " + beneficiarioSelecionado.getNome());
                     System.out.println("O estado atual do benficario e: " + ((Titular) beneficiarioSelecionado).getAposentado());
@@ -395,10 +377,8 @@ public class VitaCare {
                         System.out.println((listaUsuarios.indexOf(beneficiario) + 1) + " - " + beneficiario.getNome()  );
                     });
                     Integer usuarioSelecionado = InputValidator.getClienteInput();
-                    while(usuarioSelecionado <= 0 || usuarioSelecionado > listaUsuarios.size()){
-                        System.out.println("Titular selecionado invalido");
-                        usuarioSelecionado = InputValidator.getClienteInput();
-                    }
+                    usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
+
                     Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
                     List<Beneficiario> listaFamilia = new ArrayList<>();
                     listaFamilia.add(beneficiario);
