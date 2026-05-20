@@ -17,6 +17,18 @@ public abstract class Beneficiario {
         this.dataNascimento = dataNascimento;
     }
 
+    public Double mensalidadeBase(){
+        Integer year =  Year.now().getValue();
+        Integer anoNascimento = dataNascimento.getYear();
+        if( (year - anoNascimento) < 18 ){
+            return 180.00;
+        } else if ( (year - anoNascimento) >= 18 && (year-anoNascimento ) < 59){
+            return 340.00;
+        } else {
+            return 620.00;
+        }
+    }
+
     public Cobertura getCobertura() {
         return cobertura;
     }
@@ -45,16 +57,5 @@ public abstract class Beneficiario {
         this.dataNascimento = dataNascimento;
     }
 
-    public Double mensalidadeBase(){
-        Integer year =  Year.now().getValue();
-        Integer anoNascimento = dataNascimento.getYear();
-        if( (year - anoNascimento) < 18 ){
-            return 180.00;
-        } else if ( (year - anoNascimento) >= 18 && (year-anoNascimento ) < 59){
-            return 340.00;
-        } else {
-            return 620.00;
-        }
-    }
 
 }
