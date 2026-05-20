@@ -7,8 +7,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Titular extends Beneficiario implements Internavel {
+
     private Boolean aposentado = false;
     private ArrayList<Dependente> listaDependentes = new ArrayList<>();
+
     public Titular(String nome, String CPF, LocalDate dataNascimento, Cobertura cobertura) {
         super(nome, CPF, dataNascimento);
         this.cobertura = cobertura;
@@ -50,4 +52,5 @@ public class Titular extends Beneficiario implements Internavel {
     public void setInternavel() {
         cobertura = Cobertura.INTERNACAO;
     }
+
 }

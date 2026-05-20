@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 
 public class VitaCare {
-    public static void vitaCare(){
+    public static void vitaCare() {
         System.out.println("----------Bem Vindo ao VitaCare----------");
         VitaCareMenu.exibirMenu();
         Integer opcaoCliente = InputValidator.getClienteInput();
@@ -32,7 +32,7 @@ public class VitaCare {
                     String nomeTitular = scanner.nextLine();
                     System.out.println("Digite o CPF do titular(formato 9dígitos, sem pontos): ");
                     String cpfTitular = scanner.nextLine();
-                    while(cpfTitular.length() < 9 || cpfTitular.length() > 10){
+                    while (cpfTitular.length() < 9 || cpfTitular.length() > 10) {
                         System.out.println("CPF invalido!");
                         cpfTitular = scanner.nextLine();
                     }
@@ -42,15 +42,15 @@ public class VitaCare {
                     LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
                     VitaCareMenu.exibirCoberturaBase();
                     Integer opcaoCoberturaTitular = InputValidator.getClienteInput();
-                    while(opcaoCoberturaTitular < 1 || opcaoCoberturaTitular > 3){
+                    while (opcaoCoberturaTitular < 1 || opcaoCoberturaTitular > 3) {
                         System.out.println("Selecione apenas as opcoes");
                         opcaoCoberturaTitular = InputValidator.getClienteInput();
                     }
                     Cobertura coberturaTitular;
-                    if(opcaoCoberturaTitular == 1){
+                    if (opcaoCoberturaTitular == 1) {
                         coberturaTitular = Cobertura.EXAME;
-                    } else if (opcaoCoberturaTitular == 2){
-                        coberturaTitular= Cobertura.CONSULTA;
+                    } else if (opcaoCoberturaTitular == 2) {
+                        coberturaTitular = Cobertura.CONSULTA;
                     } else {
                         coberturaTitular = Cobertura.TOTAL;
                     }
@@ -59,28 +59,28 @@ public class VitaCare {
                     titular.setInternavel();
                     System.out.println("Deseja adicionar dependentes (S/N)?");
                     String adicionarDependentes = scanner.nextLine();
-                    while(!adicionarDependentes.equalsIgnoreCase("s") && !adicionarDependentes.equalsIgnoreCase("n")){
+                    while (!adicionarDependentes.equalsIgnoreCase("s") && !adicionarDependentes.equalsIgnoreCase("n")) {
                         System.out.println("Digite S/N");
                         adicionarDependentes = scanner.nextLine();
                     }
-                    if(adicionarDependentes.equalsIgnoreCase("s")){
+                    if (adicionarDependentes.equalsIgnoreCase("s")) {
                         System.out.println("Quantos dependentes? MAX: 3");
                         Integer totalDependentes = InputValidator.getClienteInput();
-                        while(totalDependentes > 3){
+                        while (totalDependentes > 3) {
                             System.out.println("Digite um numero valido");
                             totalDependentes = InputValidator.getClienteInput();
                         }
-                        for (int i = 0; i < totalDependentes ; i++) {
+                        for (int i = 0; i < totalDependentes; i++) {
                             System.out.println("Digite o tipo do dependente:");
                             TipoDependente tipoDependente;
                             System.out.println("1 - FILHO");
                             System.out.println("2 - CONJUGE");
                             Integer tipoDependenteSelecionado = InputValidator.getClienteInput();
-                            while(tipoDependenteSelecionado < 1 || tipoDependenteSelecionado > 2){
+                            while (tipoDependenteSelecionado < 1 || tipoDependenteSelecionado > 2) {
                                 System.out.println("OpcaoInvalida");
                                 tipoDependenteSelecionado = InputValidator.getClienteInput();
                             }
-                            if(tipoDependenteSelecionado == 1){
+                            if (tipoDependenteSelecionado == 1) {
                                 tipoDependente = TipoDependente.FILHO;
                             } else {
                                 tipoDependente = TipoDependente.CONJUGE;
@@ -93,25 +93,25 @@ public class VitaCare {
                             String stringNascimentoDependente = scanner.nextLine();
                             LocalDate dataNascimentoDependente = LocalDate.parse(stringNascimentoDependente, formatter);
                             Integer idadeAtual = (Year.now().getValue()) - dataNascimentoDependente.getYear();
-                            if(tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25){
+                            if (tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25) {
                                 System.out.println("Filhos só podem ser dependentes até 24anos!");
                                 break;
                             }
                             VitaCareMenu.exibirCoberturaBase();
                             Integer tipoCobertura = InputValidator.getClienteInput();
-                            while(tipoCobertura < 1 || tipoCobertura > 3){
+                            while (tipoCobertura < 1 || tipoCobertura > 3) {
                                 System.out.println("Selecione apenas as opcoes");
                                 tipoCobertura = InputValidator.getClienteInput();
                             }
                             Cobertura cobertura;
-                            if(tipoCobertura == 1){
+                            if (tipoCobertura == 1) {
                                 cobertura = Cobertura.EXAME;
-                            } else if (tipoCobertura == 2){
+                            } else if (tipoCobertura == 2) {
                                 cobertura = Cobertura.CONSULTA;
                             } else {
                                 cobertura = Cobertura.TOTAL;
                             }
-                            Dependente dependente = new Dependente(nomeDependente,cpfDependente,dataNascimentoDependente,
+                            Dependente dependente = new Dependente(nomeDependente, cpfDependente, dataNascimentoDependente,
                                     titular, cobertura, tipoDependente);
                             titular.adicionarDependente(dependente);
                         }
@@ -121,11 +121,11 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 2 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     } else {
                         System.out.println("Selecione um titular para gerar resumo:  ");
-                        listaUsuarios.forEach( usuario -> {
+                        listaUsuarios.forEach(usuario -> {
                             System.out.println(listaUsuarios.indexOf(usuario) + 1 + " - " + usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
@@ -139,17 +139,17 @@ public class VitaCare {
                         System.out.println("CPF: " + beneficiarioSelecionado.getCPF());
                         System.out.println("Mensalidade: " + ((Titular) beneficiarioSelecionado).valorMensalidade());
                         DelayTimer.delay(700);
-                        if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
+                        if (!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
                             System.out.println("O titular possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " " +
                                     "dependentes");
                         }
                         mensalidadeDoBeneficiario += ((Titular) beneficiarioSelecionado).valorMensalidade();
-                        if(beneficiarioSelecionado instanceof Titular){
-                            if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()){
+                        if (beneficiarioSelecionado instanceof Titular) {
+                            if (!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
                                 System.out.println("Mostrando dependentes...");
                                 DelayTimer.delay(1000);
                                 for (Dependente dependenteBeneficiario : ((Titular) beneficiarioSelecionado).getListaDependentes()) {
-                                    if(  ((Titular) beneficiarioSelecionado).getListaDependentes().indexOf(dependenteBeneficiario) == 0 ){
+                                    if (((Titular) beneficiarioSelecionado).getListaDependentes().indexOf(dependenteBeneficiario) == 0) {
                                         System.out.println();
                                     } else {
                                         System.out.println("------------------------------------");
@@ -167,7 +167,7 @@ public class VitaCare {
                         System.out.println("------------------------------------");
                         System.out.println("Calculando mensalidade...");
                         DelayTimer.delay(700);
-                        System.out.println("Mensalidade para o titular: " + beneficiarioSelecionado.getNome()+ " e de: R$ " + mensalidadeDoBeneficiario);
+                        System.out.println("Mensalidade para o titular: " + beneficiarioSelecionado.getNome() + " e de: R$ " + mensalidadeDoBeneficiario);
                         DelayTimer.delay(700);
                         System.out.println("Digite qualquer tecla para voltar ao menur principal");
                         scanner.nextLine();
@@ -178,7 +178,7 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 3 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     } else {
                         System.out.println("Selecione o beneficiario para verificar cobertura");
@@ -207,12 +207,12 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 4 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("beneficiario");
                     } else {
                         System.out.println("Selecione um usuario: ");
-                        listaUsuarios.forEach( usuario -> {
-                            System.out.println( (listaUsuarios.indexOf(usuario) + 1) + " - " +usuario.getNome());
+                        listaUsuarios.forEach(usuario -> {
+                            System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - " + usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
                         usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
@@ -220,7 +220,7 @@ public class VitaCare {
                         List<Beneficiario> listaDaFamilia = new ArrayList<>();
                         System.out.println("Você selecionou " + beneficiario.getNome());
                         listaDaFamilia.add(beneficiario);
-                        if (((Titular) beneficiario).getListaDependentes().isEmpty()){
+                        if (((Titular) beneficiario).getListaDependentes().isEmpty()) {
                             System.out.println("O beneficiaro nao tem dependentes");
                         } else {
                             System.out.println("O beneficiario possui " + ((Titular) beneficiario).getListaDependentes().size() + " dependentes.");
@@ -230,10 +230,10 @@ public class VitaCare {
                         }
                         System.out.println("Selecione o beneficiario para agendar a consulta: ");
                         listaDaFamilia.forEach(beneficiarioFamilia -> {
-                            System.out.println( listaDaFamilia.indexOf(beneficiarioFamilia) + 1 + " - " + beneficiarioFamilia.getNome());
+                            System.out.println(listaDaFamilia.indexOf(beneficiarioFamilia) + 1 + " - " + beneficiarioFamilia.getNome());
                         });
                         Integer escolhaBeneficiario = InputValidator.getClienteInput();
-                        while(escolhaBeneficiario < 0 || escolhaBeneficiario > listaDaFamilia.size()){
+                        while (escolhaBeneficiario < 0 || escolhaBeneficiario > listaDaFamilia.size()) {
                             System.out.println("Beneficiario invalido");
                             escolhaBeneficiario = InputValidator.getClienteInput();
                         }
@@ -242,22 +242,21 @@ public class VitaCare {
 
                     }
 
-
-
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 5 -> {
-                    if(AgendarExame.getListaExames().isEmpty()){
+                    if (AgendarExame.getListaExames().isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("Exame");
                     } else {
                         System.out.println("Mostrando dos exames agendados: ");
                         AgendarExame.getListaExames().forEach(exame -> {
-                            System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) + " - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
-                            if(exame.getDataSaida() != null){
+                            System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) + " - " + exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
+                            if (exame.getDataSaida() != null) {
                                 System.out.print(", data experada de saída: " + exame.getDataSaida().format(formatter));
-                            };
-                            System.out.println(" Doutor: " +exame.getDoutor().getNome() + ", Especializacao: " + exame.getDoutor().getEspecializacao()+".");
+                            }
+                            ;
+                            System.out.println(" Doutor: " + exame.getDoutor().getNome() + ", Especializacao: " + exame.getDoutor().getEspecializacao() + ".");
                         });
                         System.out.println("Digite qualquer tecla para voltar ao menu");
                         String confirma = scanner.nextLine();
@@ -268,24 +267,24 @@ public class VitaCare {
 
                 }
                 case 6 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("beneficiario");
                     } else {
                         System.out.println("Selecione um titular: ");
                         System.out.println("0 - VOLTAR");
-                        listaUsuarios.forEach( usuario -> {
-                            System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - "+ usuario.getNome());
+                        listaUsuarios.forEach(usuario -> {
+                            System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - " + usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
-                        if(usuarioSelecionado.equals(0)){
+                        if (usuarioSelecionado.equals(0)) {
                             System.out.println("Voltando ao menu...");
                             VitaCareMenu.exibirMenu();
                             opcaoCliente = InputValidator.getClienteInput();
                             break;
                         }
                         usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
-                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado -1 );
-                        if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() >= 3){
+                        Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
+                        if (((Titular) beneficiarioSelecionado).getListaDependentes().size() >= 3) {
                             System.out.println("Impossível adicionar novo dependente");
                             DelayTimer.delay(700);
                         } else {
@@ -294,11 +293,11 @@ public class VitaCare {
                             System.out.println("1 - FILHO");
                             System.out.println("2 - CONJUGE");
                             Integer tipoDependenteSelecionado = InputValidator.getClienteInput();
-                            while(tipoDependenteSelecionado < 1 || tipoDependenteSelecionado > 2){
+                            while (tipoDependenteSelecionado < 1 || tipoDependenteSelecionado > 2) {
                                 System.out.println("OpcaoInvalida");
                                 tipoDependenteSelecionado = InputValidator.getClienteInput();
                             }
-                            if(tipoDependenteSelecionado == 1){
+                            if (tipoDependenteSelecionado == 1) {
                                 tipoDependente = TipoDependente.FILHO;
                             } else {
                                 tipoDependente = TipoDependente.CONJUGE;
@@ -307,7 +306,7 @@ public class VitaCare {
                             String nomeDependente = scanner.nextLine();
                             System.out.println("Digite o CPF do dependente(formato 9dígitos, sem pontos): ");
                             String cpfDependente = scanner.nextLine();
-                            while(cpfDependente.length() < 9 || cpfDependente.length() > 10){
+                            while (cpfDependente.length() < 9 || cpfDependente.length() > 10) {
                                 System.out.println("CPF Invalido");
                                 cpfDependente = scanner.nextLine();
                             }
@@ -316,25 +315,25 @@ public class VitaCare {
                             stringNascimentoDependente = InputValidator.validarStringData(stringNascimentoDependente);
                             LocalDate dataNascimentoDependente = LocalDate.parse(stringNascimentoDependente, formatter);
                             Integer idadeAtual = (Year.now().getValue()) - dataNascimentoDependente.getYear();
-                            if(tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25){
+                            if (tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25) {
                                 System.out.println("Filhos só podem ser dependentes até 24anos!");
                                 break;
                             }
                             VitaCareMenu.exibirCoberturaBase();
                             Integer tipoCobertura = InputValidator.getClienteInput();
-                            while(tipoCobertura < 1 || tipoCobertura > 3){
+                            while (tipoCobertura < 1 || tipoCobertura > 3) {
                                 System.out.println("Selecione apenas as opcoes");
                                 tipoCobertura = InputValidator.getClienteInput();
                             }
                             Cobertura cobertura;
-                            if(tipoCobertura == 1){
+                            if (tipoCobertura == 1) {
                                 cobertura = Cobertura.EXAME;
-                            } else if (tipoCobertura == 2){
+                            } else if (tipoCobertura == 2) {
                                 cobertura = Cobertura.CONSULTA;
                             } else {
                                 cobertura = Cobertura.TOTAL;
                             }
-                            Dependente dependente = new Dependente(nomeDependente,cpfDependente,dataNascimentoDependente,
+                            Dependente dependente = new Dependente(nomeDependente, cpfDependente, dataNascimentoDependente,
                                     (Titular) beneficiarioSelecionado, cobertura, tipoDependente);
                             ((Titular) beneficiarioSelecionado).adicionarDependente(dependente);
                         }
@@ -347,12 +346,12 @@ public class VitaCare {
                     }
                 }
                 case 7 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     }
                     System.out.println("Selecione o titular para aposentar/desaposentar");
                     listaUsuarios.forEach(usuario -> {
-                        System.out.println((listaUsuarios.indexOf(usuario)+1) + " - " + usuario.getNome());
+                        System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - " + usuario.getNome());
                     });
                     Integer usuarioSelecionado = InputValidator.getClienteInput();
                     usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
@@ -363,21 +362,21 @@ public class VitaCare {
                     System.out.println("1 - APOSENTAR");
                     System.out.println("2 - DESAPOSENTAR");
                     Integer aposentar = InputValidator.getClienteInput();
-                    while(aposentar < 1 || aposentar > 2){
+                    while (aposentar < 1 || aposentar > 2) {
                         System.out.println("Selecione uma opcao valida");
                         aposentar = InputValidator.getClienteInput();
                     }
-                    switch (aposentar){
+                    switch (aposentar) {
                         case 1 -> {
-                            if(((Titular) beneficiarioSelecionado).getAposentado().equals("Aposentado")){
-                                System.out.println( beneficiarioSelecionado.getNome() + " ja esta aposentado");
+                            if (((Titular) beneficiarioSelecionado).getAposentado().equals("Aposentado")) {
+                                System.out.println(beneficiarioSelecionado.getNome() + " ja esta aposentado");
                             } else {
                                 System.out.println("Aposentando beneficiario " + beneficiarioSelecionado.getNome());
                                 ((Titular) beneficiarioSelecionado).setAposentado(true);
                             }
                         }
                         case 2 -> {
-                            if  (((Titular) beneficiarioSelecionado).getAposentado().equals("Nao aposentado")){
+                            if (((Titular) beneficiarioSelecionado).getAposentado().equals("Nao aposentado")) {
                                 System.out.println(beneficiarioSelecionado.getNome() + " ja consta como nao aposentado");
                             } else {
                                 System.out.println("Aposentando benficario " + beneficiarioSelecionado.getNome());
@@ -391,12 +390,12 @@ public class VitaCare {
                     opcaoCliente = InputValidator.getClienteInput();
                 }
                 case 8 -> {
-                    if(listaUsuarios.isEmpty()){
+                    if (listaUsuarios.isEmpty()) {
                         VitaCareMenu.exibirMensagemListaVazia("beneficiario");
                     }
                     System.out.println("Selecione um titular para gerenciar as coberturas disponiveis");
                     listaUsuarios.forEach(beneficiario -> {
-                        System.out.println((listaUsuarios.indexOf(beneficiario) + 1) + " - " + beneficiario.getNome()  );
+                        System.out.println((listaUsuarios.indexOf(beneficiario) + 1) + " - " + beneficiario.getNome());
                     });
                     Integer usuarioSelecionado = InputValidator.getClienteInput();
                     usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
@@ -404,16 +403,16 @@ public class VitaCare {
                     Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
                     List<Beneficiario> listaFamilia = new ArrayList<>();
                     listaFamilia.add(beneficiario);
-                    if(((Titular)beneficiario).getListaDependentes().isEmpty()){
+                    if (((Titular) beneficiario).getListaDependentes().isEmpty()) {
                         System.out.println("Usuario não tem dependentes");
                     } else {
-                        ((Titular)beneficiario).getListaDependentes().forEach(dependente -> {
+                        ((Titular) beneficiario).getListaDependentes().forEach(dependente -> {
                             listaFamilia.add(dependente);
                         });
                     }
                     System.out.println("Selecione o titular/dependente para gerenciar a cobertura: ");
                     listaFamilia.forEach(beneficiarios -> {
-                        System.out.println((listaFamilia.indexOf(beneficiarios) +1) + " - " + beneficiarios.getNome() );
+                        System.out.println((listaFamilia.indexOf(beneficiarios) + 1) + " - " + beneficiarios.getNome());
                     });
                     Integer beneficiarioSelecionado = InputValidator.getClienteInput();
                     beneficiarioSelecionado = InputValidator.valueIn0toSize(beneficiarioSelecionado, listaFamilia);
@@ -422,7 +421,7 @@ public class VitaCare {
                     System.out.println("A cobertura atual do beneficiario e: " + beneficiarioMudarCobertura.getCobertura());
                     System.out.println("Selecione a cobertura: ");
                     Integer coberturaSelecionada;
-                    if(beneficiarioMudarCobertura instanceof Titular){
+                    if (beneficiarioMudarCobertura instanceof Titular) {
                         System.out.println("Digite o tipo de cobertura: ");
                         System.out.println("1 - EXAME");
                         System.out.println("2 - CONSULTA");
@@ -430,11 +429,11 @@ public class VitaCare {
                         System.out.println("4 - INTERNACAO");
                         Cobertura cobertura;
                         coberturaSelecionada = InputValidator.getClienteInput();
-                        while(coberturaSelecionada <= 0 || coberturaSelecionada > 4){
+                        while (coberturaSelecionada <= 0 || coberturaSelecionada > 4) {
                             System.out.println("Opcao Invalida");
                             coberturaSelecionada = InputValidator.getClienteInput();
                         }
-                        switch (coberturaSelecionada){
+                        switch (coberturaSelecionada) {
                             case 1 -> {
                                 cobertura = Cobertura.EXAME;
                                 beneficiarioMudarCobertura.setCobertura(cobertura);
@@ -450,7 +449,7 @@ public class VitaCare {
                                 beneficiarioMudarCobertura.setCobertura(cobertura);
                                 System.out.println("A cobertura foi modificara para: " + cobertura);
                             }
-                            case  4 -> {
+                            case 4 -> {
                                 cobertura = Cobertura.INTERNACAO;
                                 beneficiarioMudarCobertura.setCobertura(cobertura);
                                 System.out.println("A cobertura foi modificara para: " + cobertura);
@@ -462,74 +461,74 @@ public class VitaCare {
                         VitaCareMenu.exibirCoberturaBase();
                         Cobertura cobertura;
                         coberturaSelecionada = InputValidator.getClienteInput();
-                        while(coberturaSelecionada <= 0  || coberturaSelecionada > 3){
+                        while (coberturaSelecionada <= 0 || coberturaSelecionada > 3) {
                             System.out.println("Selecao Invalida");
                             coberturaSelecionada = InputValidator.getClienteInput();
                         }
-                            switch (coberturaSelecionada){
-                                case 1 -> {
-                                    cobertura = Cobertura.EXAME;
-                                    beneficiarioMudarCobertura.setCobertura(cobertura);
-                                    System.out.println("A cobertura foi modificara para: " + cobertura);
-                                }
-                                case 2 -> {
-                                    cobertura = Cobertura.CONSULTA;
-                                    beneficiarioMudarCobertura.setCobertura(cobertura);
-                                    System.out.println("A cobertura foi modificara para: " + cobertura);
-                                }
-                                case 3 -> {
-                                    cobertura = Cobertura.TOTAL;
-                                    beneficiarioMudarCobertura.setCobertura(cobertura);
-                                    System.out.println("A cobertura foi modificara para: " + cobertura);
-                                }
+                        switch (coberturaSelecionada) {
+                            case 1 -> {
+                                cobertura = Cobertura.EXAME;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
                             }
+                            case 2 -> {
+                                cobertura = Cobertura.CONSULTA;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                            case 3 -> {
+                                cobertura = Cobertura.TOTAL;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                        }
                         System.out.println("Mudando a cobertura...");
                         DelayTimer.delay(700);
-                        }
+                    }
                     System.out.println("Voltando ao menu...");
                     DelayTimer.delay(700);
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
-                    }
+                }
                 case 9 -> {
-                        if(listaUsuarios.isEmpty()){
-                            VitaCareMenu.exibirMensagemListaVazia("Titular");
-                        } else {
-                            System.out.println("Selecione um titular: ");
-                            listaUsuarios.forEach( titular ->{
-                                System.out.println((listaUsuarios.indexOf(titular) + 1) + " - " + titular.getNome());
-                            });
-                            Integer usuarioSelecionado = InputValidator.getClienteInput();
-                            usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
-                            Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
-                            List<Beneficiario> listaFamilia = new ArrayList<>();
-                            listaFamilia.add(beneficiario);
-                            ((Titular) beneficiario).getListaDependentes().forEach(dependente -> {
-                                listaFamilia.add(dependente);
-                            });
-                            System.out.println("Escolha um beneficiario para modificar os dados: ");
-                            listaFamilia.forEach( usuarioFamilia -> {
-                                System.out.println((listaFamilia.indexOf(usuarioFamilia) + 1) + " - " + usuarioFamilia.getNome());
-                            });
-                            Integer usuarioParaModificar = InputValidator.getClienteInput();
-                            usuarioParaModificar = InputValidator.valueIn0toSize(usuarioParaModificar, listaFamilia);
-                            Beneficiario beneficiarioParaModificar = listaFamilia.get(usuarioParaModificar - 1);
-                            System.out.println("Você selecionou: " + beneficiarioParaModificar.getNome());
-                            System.out.println("Novo nome: ");
-                            String novoNome = scanner.nextLine();
-                            beneficiarioParaModificar.setNome(novoNome);
-                            System.out.println("Nova data de nascimento (format dd/MM/yyyy): ");
-                            String novaDataNascimento = scanner.nextLine();
-                            novaDataNascimento = InputValidator.validarStringData(novaDataNascimento);
-                            LocalDate novaData = LocalDate.parse(novaDataNascimento, formatter);
-                            beneficiarioParaModificar.setDataNascimento(novaData);
-                            System.out.println("Voltando ao menu...");
-                            DelayTimer.delay(700);
-                        }
-
-                        VitaCareMenu.exibirMenu();
-                        opcaoCliente = InputValidator.getClienteInput();
+                    if (listaUsuarios.isEmpty()) {
+                        VitaCareMenu.exibirMensagemListaVazia("Titular");
+                    } else {
+                        System.out.println("Selecione um titular: ");
+                        listaUsuarios.forEach(titular -> {
+                            System.out.println((listaUsuarios.indexOf(titular) + 1) + " - " + titular.getNome());
+                        });
+                        Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
+                        Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
+                        List<Beneficiario> listaFamilia = new ArrayList<>();
+                        listaFamilia.add(beneficiario);
+                        ((Titular) beneficiario).getListaDependentes().forEach(dependente -> {
+                            listaFamilia.add(dependente);
+                        });
+                        System.out.println("Escolha um beneficiario para modificar os dados: ");
+                        listaFamilia.forEach(usuarioFamilia -> {
+                            System.out.println((listaFamilia.indexOf(usuarioFamilia) + 1) + " - " + usuarioFamilia.getNome());
+                        });
+                        Integer usuarioParaModificar = InputValidator.getClienteInput();
+                        usuarioParaModificar = InputValidator.valueIn0toSize(usuarioParaModificar, listaFamilia);
+                        Beneficiario beneficiarioParaModificar = listaFamilia.get(usuarioParaModificar - 1);
+                        System.out.println("Você selecionou: " + beneficiarioParaModificar.getNome());
+                        System.out.println("Novo nome: ");
+                        String novoNome = scanner.nextLine();
+                        beneficiarioParaModificar.setNome(novoNome);
+                        System.out.println("Nova data de nascimento (format dd/MM/yyyy): ");
+                        String novaDataNascimento = scanner.nextLine();
+                        novaDataNascimento = InputValidator.validarStringData(novaDataNascimento);
+                        LocalDate novaData = LocalDate.parse(novaDataNascimento, formatter);
+                        beneficiarioParaModificar.setDataNascimento(novaData);
+                        System.out.println("Voltando ao menu...");
+                        DelayTimer.delay(700);
                     }
+
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+                }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");
                     VitaCareMenu.exibirMenu();
@@ -537,15 +536,14 @@ public class VitaCare {
                 }
             }
 
-        }  while (opcaoCliente != 0);
-
-
+        } while (opcaoCliente != 0);
 
     }
 
     static List<Beneficiario> listaUsuarios = new ArrayList<>();
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
+
     static {
         LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
         LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
