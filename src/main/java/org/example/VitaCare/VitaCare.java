@@ -491,7 +491,46 @@ public class VitaCare {
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                     }
+                    case 9 ->{
+                        if(listaUsuarios.isEmpty()){
+                            VitaCareMenu.exibirMensagemListaVazia("Titular");
+                        } else {
+                            System.out.println("Selecione um titular: ");
+                            listaUsuarios.forEach( titular ->{
+                                System.out.println((listaUsuarios.indexOf(titular) + 1) + " - " + titular.getNome());
+                            });
+                            Integer usuarioSelecionado = InputValidator.getClienteInput();
+                            usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
+                            Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
+                            List<Beneficiario> listaFamilia = new ArrayList<>();
+                            listaFamilia.add(beneficiario);
+                            ((Titular) beneficiario).getListaDependentes().forEach(dependente -> {
+                                listaFamilia.add(dependente);
+                            });
+                            System.out.println("Escolha um beneficiario para modificar os dados: ");
+                            listaFamilia.forEach( usuarioFamilia -> {
+                                System.out.println((listaFamilia.indexOf(usuarioFamilia) + 1) + " - " + usuarioFamilia.getNome());
+                            });
+                            Integer usuarioParaModificar = InputValidator.getClienteInput();
+                            usuarioParaModificar = InputValidator.valueIn0toSize(usuarioParaModificar, listaFamilia);
+                            Beneficiario beneficiarioParaModificar = listaFamilia.get(usuarioParaModificar - 1);
+                            DelayTimer.delay(700);
+                            System.out.println("Você selecionou: " + beneficiarioParaModificar.getNome());
+                            System.out.println("Novo nome: ");
+                            String novoNome = scanner.nextLine();
+                            beneficiarioParaModificar.setNome(novoNome);
+                            System.out.println("Nova data de nascimento (format dd/MM/yyyy): ");
+                            String novaDataNascimento = scanner.nextLine();
+                            novaDataNascimento = InputValidator.validarStringData(novaDataNascimento);
+                            LocalDate novaData = LocalDate.parse(novaDataNascimento, formatter);
+                            beneficiarioParaModificar.setDataNascimento(novaData);
+                            System.out.println("Voltando ao menu...");
+                            DelayTimer.delay(700);
+                        }
 
+                        VitaCareMenu.exibirMenu();
+                        opcaoCliente = InputValidator.getClienteInput();
+                    }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");
                     VitaCareMenu.exibirMenu();

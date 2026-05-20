@@ -13,6 +13,7 @@ public class VitaCareMenu {
         System.out.println("6 - Adicionar Beneficiario a um Titular Existente");
         System.out.println("7 - Aposentar Titular");
         System.out.println("8 - Gerenciar coberturas de beneficiarios");
+        System.out.println("9 - Modificar dados de um beneficiario");
         System.out.println("0 - Sair");
     }
    public static void exibirCoberturaBase(){
