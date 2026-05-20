@@ -9,14 +9,6 @@ public class Doutor {
         this.especializacao = gerarNomeDoutor()[1];
     }
 
-    public String getNome() {
-        return nome;
-    }
-    public String getEspecializacao() {
-        return especializacao;
-    }
-
-
     static String[] gerarNomeDoutor(){
         String[] nomeDoutores = new String[]{"Fulano", "Siclano", "Deutrano", "Zezin", "Beltrano", "Mariazinha"};
         Integer nomeAleatorio = (int) (Math.random() * nomeDoutores.length);
@@ -26,4 +18,12 @@ public class Doutor {
         String[] stringNomeDoutor = new String[]{nomeDoutores[nomeAleatorio], especialidades[especialidadeAleatoria]};
         return stringNomeDoutor;
     }
+
+    public String getNome() {
+        return nome;
+    }
+    public String getEspecializacao() {
+        return especializacao;
+    }
+
 }
