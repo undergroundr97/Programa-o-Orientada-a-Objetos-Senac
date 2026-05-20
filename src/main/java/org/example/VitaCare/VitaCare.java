@@ -346,7 +346,7 @@ public class VitaCare {
 
                     }
                 }
-                case 7 ->{
+                case 7 -> {
                     if(listaUsuarios.isEmpty()){
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     }
@@ -491,7 +491,7 @@ public class VitaCare {
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                     }
-                    case 9 ->{
+                case 9 -> {
                         if(listaUsuarios.isEmpty()){
                             VitaCareMenu.exibirMensagemListaVazia("Titular");
                         } else {
@@ -514,7 +514,6 @@ public class VitaCare {
                             Integer usuarioParaModificar = InputValidator.getClienteInput();
                             usuarioParaModificar = InputValidator.valueIn0toSize(usuarioParaModificar, listaFamilia);
                             Beneficiario beneficiarioParaModificar = listaFamilia.get(usuarioParaModificar - 1);
-                            DelayTimer.delay(700);
                             System.out.println("Você selecionou: " + beneficiarioParaModificar.getNome());
                             System.out.println("Novo nome: ");
                             String novoNome = scanner.nextLine();
