@@ -1,5 +1,8 @@
 package org.example.VitaCare;
 
+import org.example.Delay.DelayTimer;
+import org.example.Entidades.Beneficiario;
+
 public class VitaCareMenu {
     public static void exibirMenu(){
         System.out.println("1 - Cadastrar Novo Titular");
@@ -12,5 +15,16 @@ public class VitaCareMenu {
         System.out.println("8 - Gerenciar coberturas de beneficiarios");
         System.out.println("0 - Sair");
     }
+   public static void exibirCoberturaBase(){
+       System.out.println("Digite o tipo de cobertura: ");
+       System.out.println("1 - EXAME");
+       System.out.println("2 - CONSULTA");
+       System.out.println("3 - TOTAL");
+   }
 
+    public static void exibirMensagemListaVazia(String string){
+        System.out.println("Nenhum + " + string + " cadastrado!");
+        System.out.println("Voltando ao menu...");
+        DelayTimer.delay(700);
+    }
 }
