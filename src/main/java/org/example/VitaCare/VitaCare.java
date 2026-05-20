@@ -9,6 +9,7 @@ import org.example.Entidades.Titular;
 import org.example.Enums.TipoDependente;
 import org.example.InputValidator.InputValidator;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
@@ -258,7 +259,7 @@ public class VitaCare {
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
                 }
-                case 5 ->{
+                case 5 -> {
                     if(AgendarExame.getListaExames().isEmpty()){
                         System.out.println("Nenhum exame agendado!");
                         System.out.println("Retornando ao menu principal");
@@ -295,7 +296,7 @@ public class VitaCare {
                             usuarioSelecionado = InputValidator.getClienteInput();
                         }
                         Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado -1 );
-                        if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() > 3){
+                        if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() >= 3){
                             System.out.println("Impossível adicionar novo dependente");
                             System.out.println("Voltando para o menu...");
                             DelayTimer.delay(700);
@@ -354,6 +355,56 @@ public class VitaCare {
                         opcaoCliente = InputValidator.getClienteInput();
 
                     }
+                }
+                case 7 ->{
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum usuario cadastrado");
+                        DelayTimer.delay(700);
+                        System.out.println("Voltando ao menu...");
+                        DelayTimer.delay(700);
+                    }
+                    System.out.println("Selecione o titular para aposentar/desaposentar");
+                    listaUsuarios.forEach(usuario -> {
+                        System.out.println((listaUsuarios.indexOf(usuario)+1) + " - " + usuario.getNome());
+                    });
+                    Integer usuarioSelecionado = InputValidator.getClienteInput();
+                    while(usuarioSelecionado <= 0 || usuarioSelecionado >= listaUsuarios.size()){
+                        System.out.println("Usuario invalido");
+                        usuarioSelecionado = InputValidator.getClienteInput();
+                    }
+                    Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado);
+                    System.out.println("O titular selecioando foi: " + beneficiarioSelecionado.getNome());
+                    System.out.println("O estado atual do benficario e: " + ((Titular) beneficiarioSelecionado).getAposentado());
+                    System.out.println("O que deseja fazer?");
+                    System.out.println("1 - APOSENTAR");
+                    System.out.println("2 - DESAPOSENTAR");
+                    Integer aposentar = InputValidator.getClienteInput();
+                    while(aposentar < 1 || aposentar > 2){
+                        System.out.println("Selecione uma opcao valida");
+                        aposentar = InputValidator.getClienteInput();
+                    }
+                    switch (aposentar){
+                        case 1 -> {
+                            if(((Titular) beneficiarioSelecionado).getAposentado().equals("Aposentado")){
+                                System.out.println( beneficiarioSelecionado.getNome() + " ja esta aposentado");
+                            } else {
+                                System.out.println("Aposentando beneficiario " + beneficiarioSelecionado.getNome());
+                                ((Titular) beneficiarioSelecionado).setAposentado(true);
+                            }
+                        }
+                        case 2 -> {
+                            if  (((Titular) beneficiarioSelecionado).getAposentado().equals("Nao aposentado")){
+                                System.out.println(beneficiarioSelecionado.getNome() + " ja consta como nao aposentado");
+                            } else {
+                                System.out.println("Aposentando benficario " + beneficiarioSelecionado.getNome());
+                                ((Titular) beneficiarioSelecionado).setAposentado(false);
+                            }
+                        }
+                    }
+                    System.out.println("Voltando ao menu...");
+                    DelayTimer.delay(700);
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
                 }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");

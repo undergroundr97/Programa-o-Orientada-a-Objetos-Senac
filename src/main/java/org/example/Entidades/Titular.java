@@ -34,6 +34,17 @@ public class Titular extends Beneficiario implements Internavel {
         }
     }
 
+    public String getAposentado() {
+        if(aposentado.equals(false)){
+            return "Nao aposentado";
+        } else {
+            return "Aposentado";
+        }
+    }
+
+    public void setAposentado(Boolean aposentado) {
+        this.aposentado = aposentado;
+    }
 
     @Override
     public void setInternavel() {
