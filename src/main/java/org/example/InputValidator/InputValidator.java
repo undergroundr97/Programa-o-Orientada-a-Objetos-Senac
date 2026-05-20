@@ -1,5 +1,6 @@
 package org.example.InputValidator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class InputValidator {
@@ -37,6 +38,15 @@ public class InputValidator {
         }
         return inp;
     }
+
+    public static Integer valueIn0toSize(Integer selecionado, List<?> list ){
+        while(selecionado <= 0 || selecionado > list.size()){
+            System.out.println("Selecao Invalida");
+            selecionado = InputValidator.getClienteInput();
+        }
+        return selecionado;
+    }
+
 
 
     public static Integer getClienteInput(){
