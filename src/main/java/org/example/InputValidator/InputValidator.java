@@ -39,6 +39,13 @@ public class InputValidator {
         return inp;
     }
 
+    public static String validarStringData(String string){
+        while(!string.matches("^\\d{2}/\\d{2}/\\d{4}$")){
+            System.out.println("Data invalida, digite no formato dd/MM/yyyy");
+            string = scanner.nextLine();
+        }
+        return string;
+    }
     public static Integer valueIn0toSize(Integer selecionado, List<?> list ){
         while(selecionado <= 0 || selecionado > list.size()){
             System.out.println("Selecao Invalida");

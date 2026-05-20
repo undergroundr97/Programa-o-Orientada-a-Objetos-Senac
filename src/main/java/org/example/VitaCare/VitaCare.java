@@ -33,12 +33,13 @@ public class VitaCare {
                     String nomeTitular = scanner.nextLine();
                     System.out.println("Digite o CPF do titular(formato 9dígitos, sem pontos): ");
                     String cpfTitular = scanner.nextLine();
-                    while(cpfTitular.length() < 9){
+                    while(cpfTitular.length() < 9 || cpfTitular.length() > 10){
                         System.out.println("CPF invalido!");
                         cpfTitular = scanner.nextLine();
                     }
                     System.out.println("Digite a data de nascimento do titular (formato dd/MM/yyyy): ");
                     String dataNascimentoString = scanner.nextLine();
+                    dataNascimentoString = InputValidator.validarStringData(dataNascimentoString);
                     LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
                     VitaCareMenu.exibirCoberturaBase();
                     Integer opcaoCoberturaTitular = InputValidator.getClienteInput();
@@ -308,8 +309,13 @@ public class VitaCare {
                             String nomeDependente = scanner.nextLine();
                             System.out.println("Digite o CPF do dependente(formato 9dígitos, sem pontos): ");
                             String cpfDependente = scanner.nextLine();
+                            while(cpfDependente < 9 || cpfDependente > 10){
+                                System.out.println("CPF Invalido");
+                                cpfDependente = scanner.nextLine();
+                            }
                             System.out.println("Digite a data nascimento");
                             String stringNascimentoDependente = scanner.nextLine();
+                            stringNascimentoDependente = InputValidator.validarStringData(stringNascimentoDependente);
                             LocalDate dataNascimentoDependente = LocalDate.parse(stringNascimentoDependente, formatter);
                             Integer idadeAtual = (Year.now().getValue()) - dataNascimentoDependente.getYear();
                             if(tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25){
