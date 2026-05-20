@@ -1,5 +1,6 @@
 package org.example.VitaCare;
 
+import com.sun.security.jgss.GSSUtil;
 import org.example.AgendarExame.AgendarExame;
 import org.example.Enums.Cobertura;
 import org.example.Delay.DelayTimer;
@@ -60,6 +61,7 @@ public class VitaCare {
                     }
 
                     Titular titular = new Titular(nomeTitular, cpfTitular, dataNascimento, coberturaTitular);
+                    titular.setInternavel();
                     System.out.println("Deseja adicionar dependentes (S/N)?");
                     String adicionarDependentes = scanner.nextLine();
                     while(!adicionarDependentes.equalsIgnoreCase("s") && !adicionarDependentes.equalsIgnoreCase("n")){
@@ -372,7 +374,7 @@ public class VitaCare {
                         System.out.println("Usuario invalido");
                         usuarioSelecionado = InputValidator.getClienteInput();
                     }
-                    Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado);
+                    Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
                     System.out.println("O titular selecioando foi: " + beneficiarioSelecionado.getNome());
                     System.out.println("O estado atual do benficario e: " + ((Titular) beneficiarioSelecionado).getAposentado());
                     System.out.println("O que deseja fazer?");
@@ -405,6 +407,122 @@ public class VitaCare {
                     DelayTimer.delay(700);
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
+                }
+                case 8 -> {
+                    if(listaUsuarios.isEmpty()){
+                        System.out.println("Nenhum beneficiario cadastrado");
+                        DelayTimer.delay(700);
+                        System.out.println("Voltando ao menu...");
+                        DelayTimer.delay(700);
+                    }
+                    System.out.println("Selecione um titular para gerenciar as coberturas disponiveis");
+                    listaUsuarios.forEach(beneficiario -> {
+                        System.out.println((listaUsuarios.indexOf(beneficiario) + 1) + " - " + beneficiario.getNome()  );
+                    });
+                    Integer usuarioSelecionado = InputValidator.getClienteInput();
+                    while(usuarioSelecionado <= 0 || usuarioSelecionado > listaUsuarios.size()){
+                        System.out.println("Titular selecionado invalido");
+                        usuarioSelecionado = InputValidator.getClienteInput();
+                    }
+                    Beneficiario beneficiario = listaUsuarios.get(usuarioSelecionado - 1);
+                    List<Beneficiario> listaFamilia = new ArrayList<>();
+                    listaFamilia.add(beneficiario);
+                    if(((Titular)beneficiario).getListaDependentes().isEmpty()){
+                        System.out.println("Usuario não tem dependentes");
+                    } else {
+                        ((Titular)beneficiario).getListaDependentes().forEach(dependente -> {
+                            listaFamilia.add(dependente);
+                        });
+                    }
+                    System.out.println("Selecione o titular/dependente para gerenciar a cobertura: ");
+                    listaFamilia.forEach(beneficiarios -> {
+                        System.out.println((listaFamilia.indexOf(beneficiarios) +1) + " - " + beneficiarios.getNome() );
+                    });
+                    Integer beneficiarioSelecionado = InputValidator.getClienteInput();
+                    while(beneficiarioSelecionado <= 0 || beneficiarioSelecionado >= listaFamilia.size() ){
+                        System.out.println("Usuario invalido");
+                        beneficiarioSelecionado = InputValidator.getClienteInput();
+                    }
+                    Beneficiario beneficiarioMudarCobertura = listaFamilia.get(beneficiarioSelecionado - 1);
+                    System.out.println("O beneficiario selecionado foi: " + beneficiarioMudarCobertura.getNome());
+                    System.out.println("A cobertura atual do beneficiario e: " + beneficiarioMudarCobertura.getCobertura());
+                    System.out.println("Selecione a cobertura: ");
+                    Integer coberturaSelecionada;
+                    if(beneficiarioMudarCobertura instanceof Titular){
+                        System.out.println("Digite o tipo de cobertura: ");
+                        System.out.println("1 - EXAME");
+                        System.out.println("2 - CONSULTA");
+                        System.out.println("3 - TOTAL");
+                        System.out.println("4 - INTERNACAO");
+                        Cobertura cobertura;
+                        coberturaSelecionada = InputValidator.getClienteInput();
+                        while(coberturaSelecionada <= 0 || coberturaSelecionada > 4){
+                            System.out.println("Opcao Invalida");
+                            coberturaSelecionada = InputValidator.getClienteInput();
+                        }
+                        switch (coberturaSelecionada){
+                            case 1 -> {
+                                cobertura = Cobertura.EXAME;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                            case 2 -> {
+                                cobertura = Cobertura.CONSULTA;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                            case 3 -> {
+                                cobertura = Cobertura.TOTAL;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                            case  4 -> {
+                                cobertura = Cobertura.INTERNACAO;
+                                beneficiarioMudarCobertura.setCobertura(cobertura);
+                                System.out.println("A cobertura foi modificara para: " + cobertura);
+                            }
+                        }
+                        System.out.println("Mudando a cobertura...");
+                        DelayTimer.delay(700);
+                    } else {
+                        System.out.println("Digite o tipo de cobertura: ");
+                        System.out.println("1 - EXAME");
+                        System.out.println("2 - CONSULTA");
+                        System.out.println("3 - TOTAL");
+                        Cobertura cobertura;
+                        coberturaSelecionada = InputValidator.getClienteInput();
+                        while(coberturaSelecionada <= 0 || coberturaSelecionada > 3){
+                            System.out.println("Opcao Invalida");
+                            coberturaSelecionada = InputValidator.getClienteInput();
+                            switch (coberturaSelecionada){
+                                case 1 -> {
+                                    cobertura = Cobertura.EXAME;
+                                    beneficiarioMudarCobertura.setCobertura(cobertura);
+                                    System.out.println("A cobertura foi modificara para: " + cobertura);
+                                }
+                                case 2 -> {
+                                    cobertura = Cobertura.CONSULTA;
+                                    beneficiarioMudarCobertura.setCobertura(cobertura);
+                                    System.out.println("A cobertura foi modificara para: " + cobertura);
+                                }
+                                case 3 -> {
+                                    cobertura = Cobertura.TOTAL;
+                                    beneficiarioMudarCobertura.setCobertura(cobertura);
+                                    System.out.println("A cobertura foi modificara para: " + cobertura);
+                                }
+                            }
+
+                        }
+                        System.out.println("Mudando a cobertura...");
+                        DelayTimer.delay(700);
+                        System.out.println("Voltando ao menu...");
+                        DelayTimer.delay(700);
+                    }
+                    System.out.println("Voltando ao menu...");
+                    DelayTimer.delay(700);
+                    VitaCareMenu.exibirMenu();
+                    opcaoCliente = InputValidator.getClienteInput();
+
                 }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");

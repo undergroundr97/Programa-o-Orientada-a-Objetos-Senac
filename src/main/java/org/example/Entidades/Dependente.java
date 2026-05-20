@@ -6,7 +6,7 @@ import org.example.Enums.TipoDependente;
 import java.time.LocalDate;
 
 public class Dependente extends Beneficiario{
-    Titular titular;
+    private Titular titular;
     TipoDependente tipoDependente;
     public Dependente(String nome, String CPF, LocalDate dataNascimento, Titular titular, Cobertura cobertura, TipoDependente tipoDependente) {
         super(nome, CPF, dataNascimento);

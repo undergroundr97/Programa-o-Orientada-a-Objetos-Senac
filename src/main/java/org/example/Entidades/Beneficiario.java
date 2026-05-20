@@ -37,6 +37,10 @@ public abstract class Beneficiario {
         return dataNascimento;
     }
 
+    public void setCobertura(Cobertura cobertura) {
+        this.cobertura = cobertura;
+    }
+
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
