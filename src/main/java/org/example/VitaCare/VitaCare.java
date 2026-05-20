@@ -261,15 +261,21 @@ public class VitaCare {
                         VitaCareMenu.exibirMensagemListaVazia("beneficiario");
                     } else {
                         System.out.println("Selecione um titular: ");
+                        System.out.println("0 - VOLTAR");
                         listaUsuarios.forEach( usuario -> {
                             System.out.println((listaUsuarios.indexOf(usuario) + 1) + " - "+ usuario.getNome());
                         });
                         Integer usuarioSelecionado = InputValidator.getClienteInput();
+                        if(usuarioSelecionado.equals(0)){
+                            System.out.println("Voltando ao menu...");
+                            VitaCareMenu.exibirMenu();
+                            opcaoCliente = InputValidator.getClienteInput();
+                            break;
+                        }
                         usuarioSelecionado = InputValidator.valueIn0toSize(usuarioSelecionado, listaUsuarios);
                         Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado -1 );
                         if(( (Titular) beneficiarioSelecionado).getListaDependentes().size() >= 3){
                             System.out.println("Impossível adicionar novo dependente");
-                            System.out.println("Voltando para o menu...");
                             DelayTimer.delay(700);
                         } else {
                             System.out.println("Digite o tipo do dependente:");
@@ -394,10 +400,7 @@ public class VitaCare {
                         System.out.println((listaFamilia.indexOf(beneficiarios) +1) + " - " + beneficiarios.getNome() );
                     });
                     Integer beneficiarioSelecionado = InputValidator.getClienteInput();
-                    while(beneficiarioSelecionado <= 0 || beneficiarioSelecionado >= listaFamilia.size() ){
-                        System.out.println("Usuario invalido");
-                        beneficiarioSelecionado = InputValidator.getClienteInput();
-                    }
+                    beneficiarioSelecionado = InputValidator.valueIn0toSize(beneficiarioSelecionado, listaFamilia);
                     Beneficiario beneficiarioMudarCobertura = listaFamilia.get(beneficiarioSelecionado - 1);
                     System.out.println("O beneficiario selecionado foi: " + beneficiarioMudarCobertura.getNome());
                     System.out.println("A cobertura atual do beneficiario e: " + beneficiarioMudarCobertura.getCobertura());
@@ -443,9 +446,10 @@ public class VitaCare {
                         VitaCareMenu.exibirCoberturaBase();
                         Cobertura cobertura;
                         coberturaSelecionada = InputValidator.getClienteInput();
-                        while(coberturaSelecionada <= 0 || coberturaSelecionada > 3){
-                            System.out.println("Opcao Invalida");
+                        while(coberturaSelecionada <= 0  || coberturaSelecionada > 3){
+                            System.out.println("Selecao Invalida");
                             coberturaSelecionada = InputValidator.getClienteInput();
+                        }
                             switch (coberturaSelecionada){
                                 case 1 -> {
                                     cobertura = Cobertura.EXAME;
@@ -463,19 +467,15 @@ public class VitaCare {
                                     System.out.println("A cobertura foi modificara para: " + cobertura);
                                 }
                             }
-
-                        }
                         System.out.println("Mudando a cobertura...");
                         DelayTimer.delay(700);
-                        System.out.println("Voltando ao menu...");
-                        DelayTimer.delay(700);
-                    }
+                        }
                     System.out.println("Voltando ao menu...");
                     DelayTimer.delay(700);
                     VitaCareMenu.exibirMenu();
                     opcaoCliente = InputValidator.getClienteInput();
+                    }
 
-                }
                 default -> {
                     System.out.println("Nenhuma opcao valida selecionada!");
                     VitaCareMenu.exibirMenu();
@@ -498,7 +498,10 @@ public class VitaCare {
         Titular titular = new Titular("vitoriNTERNACAO", "12345567890", dataNascimento, Cobertura.INTERNACAO);
         Dependente dependente1 = new Dependente("vitorEXAME", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME, TipoDependente.FILHO);
         Dependente dependente2 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA, TipoDependente.FILHO);
+        Dependente dependente3 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA,
+                TipoDependente.FILHO);
         titular.adicionarDependente(dependente1);
+        titular.adicionarDependente(dependente3);
         titular.adicionarDependente(dependente2);
         listaUsuarios.add(titular);
     }
