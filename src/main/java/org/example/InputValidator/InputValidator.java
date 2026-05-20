@@ -60,10 +60,7 @@ public class InputValidator {
             }
        }
 
-//        while(!string.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
-//            System.out.println("Data invalida, digite no formato dd/MM/yyyy");
-//            string = scanner.nextLine();
-//        }
+
         return string;
 
     }
