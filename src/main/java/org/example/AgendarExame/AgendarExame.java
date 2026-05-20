@@ -14,7 +14,7 @@ public class AgendarExame {
     public static List<Exame> listaExames = new ArrayList<>();
     static {
         LocalDate date = LocalDate.of(2020, 05, 15);
-        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date);
+        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor(gerarNomeDoutor()[0],gerarNomeDoutor()[1] ));
         listaExames.add(exame);
     }
     public static List<Exame> getListaExames() {
@@ -99,7 +99,8 @@ public class AgendarExame {
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada);
+                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor(gerarNomeDoutor()[0],
+                        gerarNomeDoutor()[1]));
                 listaExames.add(exame);
                 }
 
@@ -143,7 +144,8 @@ public class AgendarExame {
                     }
                     LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                    Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada);
+                Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor(gerarNomeDoutor()[0],
+                        gerarNomeDoutor()[1]));
                     listaExames.add(exame);
 
         }
@@ -183,7 +185,8 @@ public class AgendarExame {
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada);
+                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor(gerarNomeDoutor()[0],
+                        gerarNomeDoutor()[1]));
                 listaExames.add(exame);
             }
             case Cobertura.CONSULTA -> {
@@ -222,10 +225,21 @@ public class AgendarExame {
                 }
                 LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
                 System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada);
+                Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor(gerarNomeDoutor()[0],
+                        gerarNomeDoutor()[1]));
                 listaExames.add(exame);
             }
         }
 
+    }
+
+    static String[] gerarNomeDoutor(){
+        String[] nomeDoutores = new String[]{"Fulano", "Siclano", "Deutrano", "Zezin", "Beltrano", "Mariazinha", "Etc"};
+        Integer nomeAleatorio = (int) (Math.random() * nomeDoutores.length);
+        String[] especialidades = new String[]{"Cardiologia", "Dermatologia", "Pediatria", "Ortopedia", "Neurologia", "Ginecologia", "Oftalmologia"
+                , "Psiquiatria", "Endocrinologia", "Gastroenterologia", "Oncologia", "Urologia", "Otorrinolaringologia", "Reumatologia", "Nefrologia"};
+        Integer especialidadeAleatoria = (int) (Math.random() * nomeDoutores.length);
+        String[] stringNomeDoutor = new String[]{nomeDoutores[nomeAleatorio], especialidades[especialidadeAleatoria]};
+        return stringNomeDoutor;
     }
 }

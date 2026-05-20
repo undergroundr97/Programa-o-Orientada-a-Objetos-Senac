@@ -9,16 +9,24 @@ public class Exame {
     private LocalDate dataDoExame;
     private Cobertura tipoExame;
     private LocalDate dataSaida;
-    public Exame(String nomeSolicitante, Cobertura tipoExame, LocalDate dataDoExame){
+    private Doutor doutor;
+
+    public Exame(String nomeSolicitante, Cobertura tipoExame, LocalDate dataDoExame, Doutor doutor){
         this.nomeSolicitante = nomeSolicitante;
         this.tipoExame = tipoExame;
         this.dataDoExame = dataDoExame;
+        this.doutor = doutor;
     }
+
     public Exame(String nomeSolicitante, Cobertura tipoExame, LocalDate dataDoExame, LocalDate dataSaida){
         this.nomeSolicitante = nomeSolicitante;
         this.tipoExame = tipoExame;
         this.dataDoExame = dataDoExame;
         this.dataSaida = dataSaida;
+    }
+
+    public Doutor getDoutor() {
+        return doutor;
     }
 
     public LocalDate getDataSaida() {
@@ -36,4 +44,6 @@ public class Exame {
     public Cobertura getTipoExame() {
         return tipoExame;
     }
+
+
 }

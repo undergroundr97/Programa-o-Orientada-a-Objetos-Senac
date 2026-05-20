@@ -25,7 +25,6 @@ public class VitaCare {
         do {
             switch (opcaoCliente) {
                 case 0 -> {
-
                 }
                 case 1 -> {
                     System.out.println("Bem vindo ao cadastro da VitaCare");
@@ -255,11 +254,11 @@ public class VitaCare {
                     } else {
                         System.out.println("Mostrando dos exames agendados: ");
                         AgendarExame.getListaExames().forEach(exame -> {
-                            System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) +" - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
+                            System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) + " - " +exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
                             if(exame.getDataSaida() != null){
                                 System.out.print(", data experada de saída: " + exame.getDataSaida().format(formatter));
                             };
-                            System.out.println();
+                            System.out.println(" Doutor: " +exame.getDoutor().getNome() + ", Especializacao: " + exame.getDoutor().getEspecializacao()+".");
                         });
                         System.out.println("Digite qualquer tecla para voltar ao menu");
                         String confirma = scanner.nextLine();
@@ -309,7 +308,7 @@ public class VitaCare {
                             String nomeDependente = scanner.nextLine();
                             System.out.println("Digite o CPF do dependente(formato 9dígitos, sem pontos): ");
                             String cpfDependente = scanner.nextLine();
-                            while(cpfDependente < 9 || cpfDependente > 10){
+                            while(cpfDependente.length() < 9 || cpfDependente.length() > 10){
                                 System.out.println("CPF Invalido");
                                 cpfDependente = scanner.nextLine();
                             }
