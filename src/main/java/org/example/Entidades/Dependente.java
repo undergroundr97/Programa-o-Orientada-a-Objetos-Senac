@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class Dependente extends Beneficiario{
     private Titular titular;
-    TipoDependente tipoDependente;
+    private TipoDependente tipoDependente;
     public Dependente(String nome, String CPF, LocalDate dataNascimento, Titular titular, Cobertura cobertura, TipoDependente tipoDependente) {
         super(nome, CPF, dataNascimento);
         this.titular = titular;
@@ -19,5 +19,7 @@ public class Dependente extends Beneficiario{
         return mensalidadeBase() * 0.70;
     }
 
-
+    public TipoDependente getTipoDependente() {
+        return tipoDependente;
+    }
 }

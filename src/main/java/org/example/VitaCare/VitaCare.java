@@ -124,7 +124,7 @@ public class VitaCare {
                     if(listaUsuarios.isEmpty()){
                         VitaCareMenu.exibirMensagemListaVazia("titular");
                     } else {
-                        System.out.println("Selecione um usuário para gerar resumo:  ");
+                        System.out.println("Selecione um titular para gerar resumo:  ");
                         listaUsuarios.forEach( usuario -> {
                             System.out.println(listaUsuarios.indexOf(usuario) + 1 + " - " + usuario.getNome());
                         });
@@ -134,25 +134,37 @@ public class VitaCare {
                         Double mensalidadeDoBeneficiario = 0.0;
                         System.out.println("Gerando resumo para: " + beneficiarioSelecionado.getNome());
                         DelayTimer.delay(700);
-                        System.out.println();
-                        System.out.println("Beneficiario: " + beneficiarioSelecionado.getNome());
+                        System.out.println("------------------------------------");
+                        System.out.println("Titular: " + beneficiarioSelecionado.getNome());
                         System.out.println("CPF: " + beneficiarioSelecionado.getCPF());
+                        System.out.println("Mensalidade: " + ((Titular) beneficiarioSelecionado).valorMensalidade());
                         DelayTimer.delay(700);
-                        System.out.println("O usuario possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " dependentes");
+                        if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()) {
+                            System.out.println("O titular possui: " + ((Titular) beneficiarioSelecionado).getListaDependentes().size() + " " +
+                                    "dependentes");
+                        }
                         mensalidadeDoBeneficiario += ((Titular) beneficiarioSelecionado).valorMensalidade();
                         if(beneficiarioSelecionado instanceof Titular){
                             if(!((Titular) beneficiarioSelecionado).getListaDependentes().isEmpty()){
                                 System.out.println("Mostrando dependentes...");
                                 DelayTimer.delay(1000);
                                 for (Dependente dependenteBeneficiario : ((Titular) beneficiarioSelecionado).getListaDependentes()) {
-                                    System.out.println("------------------------------------");
+                                    if(  ((Titular) beneficiarioSelecionado).getListaDependentes().indexOf(dependenteBeneficiario) == 0 ){
+                                        System.out.println();
+                                    } else {
+                                        System.out.println("------------------------------------");
+                                    }
+
                                     System.out.println("Dependente: " + dependenteBeneficiario.getNome());
                                     System.out.println("CPF: " + dependenteBeneficiario.getCPF());
+                                    System.out.println("Tipo beneficiario: " + dependenteBeneficiario.getTipoDependente());
+                                    System.out.println("Mensalidade: " + String.format("R$ %.2f", dependenteBeneficiario.valorMensalidade()));
                                     mensalidadeDoBeneficiario += dependenteBeneficiario.valorMensalidade();
                                     DelayTimer.delay(700);
                                 }
                             }
                         }
+                        System.out.println("------------------------------------");
                         System.out.println("Calculando mensalidade...");
                         DelayTimer.delay(700);
                         System.out.println("Mensalidade para o titular: " + beneficiarioSelecionado.getNome()+ " e de: R$ " + mensalidadeDoBeneficiario);
