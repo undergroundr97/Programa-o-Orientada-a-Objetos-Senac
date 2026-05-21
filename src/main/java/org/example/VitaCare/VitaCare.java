@@ -384,14 +384,14 @@ public class VitaCare {
         tipoCobertura = InputValidator.verificarInput1To3(tipoCobertura);
         Cobertura cobertura = escolhaCobertura(tipoCobertura);
 
-         dadosDependente.add(nomeDependente);
-         dadosDependente.add(cpfDependente);
-         dadosDependente.add(dataNascimentoDependente);
-         dadosDependente.add(idadeAtual);
-         dadosDependente.add(cobertura);
-         dadosDependente.add(tipoDependente);
+        dadosDependente.add(nomeDependente);
+        dadosDependente.add(cpfDependente);
+        dadosDependente.add(dataNascimentoDependente);
+        dadosDependente.add(idadeAtual);
+        dadosDependente.add(cobertura);
+        dadosDependente.add(tipoDependente);
 
-         return dadosDependente;
+        return dadosDependente;
     }
 
     static void exibirQtdEAdicionarDependentes(Beneficiario beneficiario, List<Beneficiario> lista){

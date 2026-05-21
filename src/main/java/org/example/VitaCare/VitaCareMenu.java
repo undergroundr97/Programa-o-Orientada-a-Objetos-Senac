@@ -77,7 +77,7 @@ public class VitaCareMenu {
 
     public static void exibirListaExames(){
         List<Exame> exames = AgendarExame.getListaExames();
-         exames.forEach(exame -> {
+        exames.forEach(exame -> {
             System.out.print((AgendarExame.getListaExames().indexOf(exame) + 1) + " - " + exame.getTipoExame() + " para " + exame.getNomeSolicitante() + " dia: " + exame.getDataDoExame().format(formatter));
             if (exame.getDataSaida() != null) {
                 System.out.print(", data experada de saída: " + exame.getDataSaida().format(formatter));
