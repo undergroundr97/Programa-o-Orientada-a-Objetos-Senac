@@ -54,26 +54,19 @@ public class InputValidator {
         return selecionado;
     }
 
-    public static Integer verificarInput1To2(Integer input) {{
-            while (input < 1 || input > 2) {
-                System.out.println("Input Invalido");
-                input = InputValidator.getClienteInput();
-            }
-            return input;
-        }
-    }
-
-    public static Integer verificarInput1To3(Integer input) {
-        while (input < 1 || input > 3) {
+    public static Integer verificarInput1ToN(Integer input, Integer n) {
+        while (input < 4 || input > n){
             System.out.println("Input Invalido");
             input = InputValidator.getClienteInput();
         }
         return input;
     }
 
-    public static Integer verificarInput1To4(Integer input) {
-        while (input < 1 || input > 4) {
-            System.out.println("Input Invalido");
+
+
+    public static Integer verificarInput1To5(Integer input) {
+        while (input < 1 || input > 5) {
+            System.out.println("Input invalido");
             input = InputValidator.getClienteInput();
         }
         return input;
