@@ -25,8 +25,10 @@ public class AgendarExame {
 
     public static void criarExame(Beneficiario beneficiario) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         System.out.println("Bem vindo " + beneficiario.getNome() + " ao agendamento de exames!");
         System.out.println("Sua cobertura e: " + beneficiario.getCobertura());
+
         switch (beneficiario.getCobertura()) {
             case Cobertura.INTERNACAO -> {
                 System.out.println("Você pode realizar Exames, Consultas e Internaçoes!");
@@ -43,6 +45,7 @@ public class AgendarExame {
                     System.out.println("Por favor, escolha 1, 2, 3 ou 4");
                     beneficiarioEscolha = InputValidator.getClienteInput();
                 }
+
                 String escolhaStringExame;
                 Cobertura coberturaExame;
                 if (beneficiarioEscolha == 1) {
@@ -55,6 +58,7 @@ public class AgendarExame {
                     escolhaStringExame = "Internacao";
                     coberturaExame = Cobertura.INTERNACAO;
                 }
+
                 System.out.println("Você esta agendando um: " + escolhaStringExame + ".");
                 System.out.println("Datas disponíveis para realização do " + escolhaStringExame + ":");
                 LocalDate dataHoje = LocalDate.now();

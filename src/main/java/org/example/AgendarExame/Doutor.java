@@ -1,6 +1,7 @@
 package org.example.AgendarExame;
 
 public class Doutor {
+
     private String nome;
     private String especializacao;
 
@@ -26,5 +27,4 @@ public class Doutor {
     public String getEspecializacao() {
         return especializacao;
     }
-
 }

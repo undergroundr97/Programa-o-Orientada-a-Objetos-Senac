@@ -46,6 +46,28 @@ public class InputValidator {
         return selecionado;
     }
 
+    public static Integer verificarInput1To2(Integer input) {{
+            while (input < 1 || input > 2) {
+                System.out.println("Input Invalido");
+                input = InputValidator.getClienteInput();
+            }
+            return input;
+        }
+    }
+    public static Integer verificarInput1To3(Integer input) {
+        while (input < 1 || input > 3) {
+            System.out.println("Input Invalido");
+            input = InputValidator.getClienteInput();
+        }
+        return input;
+    }
+    public static String verificarSimNao(String string){
+        while (!string.equalsIgnoreCase("s") && !string.equalsIgnoreCase("n")) {
+            System.out.println("Digite S/N");
+            string = scanner.nextLine();
+        }
+        return string;
+    }
 
     public static Integer getClienteInput() {
         InputValidator.intValidator(scanner);
