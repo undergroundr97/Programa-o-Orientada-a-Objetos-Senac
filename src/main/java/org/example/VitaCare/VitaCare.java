@@ -24,20 +24,6 @@ public class VitaCare {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
 
-    static {
-        LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
-        LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
-        Titular titular = new Titular("vitoriNTERNACAO", "12345567890", dataNascimento, Cobertura.INTERNACAO);
-        Dependente dependente1 = new Dependente("vitorEXAME", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME, TipoDependente.FILHO);
-        Dependente dependente2 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA, TipoDependente.FILHO);
-        Dependente dependente3 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA,
-                TipoDependente.FILHO);
-        titular.adicionarDependente(dependente1);
-        titular.adicionarDependente(dependente3);
-        titular.adicionarDependente(dependente2);
-        listaUsuarios.add(titular);
-    }
-
     public static void vitaCare() {
         System.out.println("----------Bem Vindo ao VitaCare----------");
         VitaCareMenu.exibirMenu();
@@ -62,19 +48,14 @@ public class VitaCare {
                     if (adicionarDependentes.equalsIgnoreCase("s")) {
                         System.out.println("Quantos dependentes? MAX: 3");
                         Integer totalDependentes = InputValidator.getClienteInput();
-                        while (totalDependentes > 3) {
-                            System.out.println("Digite um numero valido");
-                            totalDependentes = InputValidator.getClienteInput();
-                        }
-
+                        totalDependentes = InputValidator.verificarInput1ToN(totalDependentes, 3);
                         for (int i = 0; i < totalDependentes; i++) {
                             ArrayList<Object> dadosDependente = dadosDependente(scanner);
 
                             Integer idadeDependente = (Integer) dadosDependente.get(3);
                             TipoDependente tipoDependente = (TipoDependente) dadosDependente.get(5);
 
-                            if (tipoDependente.equals(TipoDependente.FILHO) && idadeDependente > 25) {
-                                System.out.println("Filhos só podem ser dependentes até 24anos!");
+                            if(filhoMaiorIdade(tipoDependente, idadeDependente)){
                                 break;
                             }
 
@@ -148,7 +129,6 @@ public class VitaCare {
                     } else {
                         exibirExamesAgendado();
                     }
-
                     VitaCareMenu.exibirVoltarMenu();
                     opcaoCliente = InputValidator.getClienteInput();
 
@@ -173,11 +153,9 @@ public class VitaCare {
                             Integer idadeAtual = (Integer) dadosDependente.get(3);
                             TipoDependente tipoDependente = (TipoDependente) dadosDependente.get(5);
 
-                            if (tipoDependente.equals(TipoDependente.FILHO) && idadeAtual > 25) {
-                                System.out.println("Filhos só podem ser dependentes até 24anos!");
+                            if(filhoMaiorIdade(tipoDependente, idadeAtual)){
                                 break;
                             }
-
                             Dependente dependente = new Dependente((String) dadosDependente.get(0), (String) dadosDependente.get(1),
                                     (LocalDate) dadosDependente.get(2),
                                     (Titular) beneficiarioSelecionado, (Cobertura) dadosDependente.get(4), (TipoDependente) dadosDependente.get(5));
@@ -292,7 +270,7 @@ public class VitaCare {
 
     }
 
-     static Cobertura escolhaCobertura(Integer escolha){
+    static Cobertura escolhaCobertura(Integer escolha){
         Cobertura cobertura;
         if (escolha == 1) {
             cobertura = Cobertura.EXAME;
@@ -496,4 +474,28 @@ public class VitaCare {
 
         return dadosUsuarios;
     }
+
+    static boolean filhoMaiorIdade (TipoDependente tipoDependente, Integer idade){
+        if (tipoDependente.equals(TipoDependente.FILHO) && idade > 25) {
+            System.out.println("Filhos só podem ser dependentes até 24anos!");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static {
+        LocalDate dataNascimento = LocalDate.parse("10/09/1997", formatter);
+        LocalDate dataNascimentoBeneficiario = LocalDate.parse("10/09/2010", formatter);
+        Titular titular = new Titular("vitoriNTERNACAO", "12345567890", dataNascimento, Cobertura.INTERNACAO);
+        Dependente dependente1 = new Dependente("vitorEXAME", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.EXAME, TipoDependente.FILHO);
+        Dependente dependente2 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA, TipoDependente.FILHO);
+        Dependente dependente3 = new Dependente("vitorCONSULTA", "12345556789", dataNascimentoBeneficiario, titular, Cobertura.CONSULTA,
+                TipoDependente.FILHO);
+        titular.adicionarDependente(dependente1);
+        titular.adicionarDependente(dependente3);
+        titular.adicionarDependente(dependente2);
+        listaUsuarios.add(titular);
+    }
+
 }

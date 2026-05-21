@@ -24,10 +24,6 @@ public class Titular extends Beneficiario implements Internavel {
         }
     }
 
-    public ArrayList<Dependente> getListaDependentes() {
-        return listaDependentes;
-    }
-
     public Double valorMensalidade(){
         if(aposentado) {
             return mensalidadeBase() * 0.80;
@@ -42,6 +38,10 @@ public class Titular extends Beneficiario implements Internavel {
         } else {
             return "Aposentado";
         }
+    }
+
+    public ArrayList<Dependente> getListaDependentes() {
+        return listaDependentes;
     }
 
     public void setAposentado(Boolean aposentado) {

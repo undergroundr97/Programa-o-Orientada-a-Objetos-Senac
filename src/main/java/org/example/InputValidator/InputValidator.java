@@ -19,7 +19,7 @@ public class InputValidator {
     }
 
     public static String validarCpf(Scanner scanner) {
-       String string = scanner.nextLine();
+        String string = scanner.nextLine();
         while (string.length() < 9 || string.length() > 10) {
             System.out.println("CPF invalido!");
             string = scanner.nextLine();
@@ -62,7 +62,6 @@ public class InputValidator {
         return input;
     }
 
-
     public static String verificarSimNao(String string){
         while (!string.equalsIgnoreCase("s") && !string.equalsIgnoreCase("n")) {
             System.out.println("Digite S/N");
@@ -76,15 +75,6 @@ public class InputValidator {
         Integer input = scanner.nextInt();
         scanner.nextLine();
         return input;
-    }
-
-    public static boolean listaVazia(List<?> lista){
-        if(lista.isEmpty()){
-            System.out.println("Nenhum usuario encontrado");
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static boolean listSizeMaior3(List<?> lista){

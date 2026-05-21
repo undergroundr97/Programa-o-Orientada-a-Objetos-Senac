@@ -15,14 +15,10 @@ import java.util.List;
 public class AgendarExame {
 
     public static List<Exame> listaExames = new ArrayList<>();
-    public static List<Exame> getListaExames() {
-        return listaExames;
-    }
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static LocalDate dataHoje = LocalDate.now();
 
     public static void criarExame(Beneficiario beneficiario) {
-
         System.out.println("Bem vindo " + beneficiario.getNome() + " ao agendamento de exames!");
         System.out.println("Sua cobertura e: " + beneficiario.getCobertura());
         Cobertura coberturaDoBeneficiario = beneficiario.getCobertura();
@@ -144,6 +140,10 @@ public class AgendarExame {
         LocalDate date = LocalDate.of(2020, 05, 15);
         Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor());
         listaExames.add(exame);
+    }
+
+    public static List<Exame> getListaExames() {
+        return listaExames;
     }
 
 }
