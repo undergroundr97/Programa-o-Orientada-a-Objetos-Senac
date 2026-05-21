@@ -23,6 +23,7 @@ public class Exame {
         this.tipoExame = tipoExame;
         this.dataDoExame = dataDoExame;
         this.dataSaida = dataSaida;
+        this.doutor = new Doutor();
     }
 
     public Doutor getDoutor() {

@@ -55,22 +55,13 @@ public class InputValidator {
     }
 
     public static Integer verificarInput1ToN(Integer input, Integer n) {
-        while (input < 4 || input > n){
+        while (input < 1 || input > n){
             System.out.println("Input Invalido");
             input = InputValidator.getClienteInput();
         }
         return input;
     }
 
-
-
-    public static Integer verificarInput1To5(Integer input) {
-        while (input < 1 || input > 5) {
-            System.out.println("Input invalido");
-            input = InputValidator.getClienteInput();
-        }
-        return input;
-    }
 
     public static String verificarSimNao(String string){
         while (!string.equalsIgnoreCase("s") && !string.equalsIgnoreCase("n")) {

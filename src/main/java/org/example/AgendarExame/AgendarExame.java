@@ -1,8 +1,11 @@
 package org.example.AgendarExame;
 
+import org.example.Entidades.Titular;
 import org.example.Enums.Cobertura;
 import org.example.Entidades.Beneficiario;
 import org.example.InputValidator.InputValidator;
+import org.example.VitaCare.VitaCare;
+import org.example.VitaCare.VitaCareMenu;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,227 +15,135 @@ import java.util.List;
 public class AgendarExame {
 
     public static List<Exame> listaExames = new ArrayList<>();
-
-    static {
-        LocalDate date = LocalDate.of(2020, 05, 15);
-        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor());
-        listaExames.add(exame);
-    }
-
     public static List<Exame> getListaExames() {
         return listaExames;
     }
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    static LocalDate dataHoje = LocalDate.now();
 
     public static void criarExame(Beneficiario beneficiario) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         System.out.println("Bem vindo " + beneficiario.getNome() + " ao agendamento de exames!");
         System.out.println("Sua cobertura e: " + beneficiario.getCobertura());
+        Cobertura coberturaDoBeneficiario = beneficiario.getCobertura();
 
-        switch (beneficiario.getCobertura()) {
+        switch (coberturaDoBeneficiario) {
             case Cobertura.INTERNACAO -> {
-                System.out.println("Você pode realizar Exames, Consultas e Internaçoes!");
-                System.out.println("O que quer agendar?");
-                System.out.println("1 - EXAME");
-                System.out.println("2 - CONSULTA");
-                System.out.println("3 - INTERNAÇAO");
-                System.out.println("4 - Cancelar");
+                VitaCareMenu.exibirMenuExame(beneficiario);
+
                 Integer beneficiarioEscolha = InputValidator.getClienteInput();
-                if (beneficiarioEscolha.equals(4)) {
-                    return;
-                }
-                while (beneficiarioEscolha < 1 || beneficiarioEscolha > 4) {
-                    System.out.println("Por favor, escolha 1, 2, 3 ou 4");
-                    beneficiarioEscolha = InputValidator.getClienteInput();
-                }
-
-                String escolhaStringExame;
-                Cobertura coberturaExame;
-                if (beneficiarioEscolha == 1) {
-                    escolhaStringExame = "Exame";
-                    coberturaExame = Cobertura.EXAME;
-                } else if (beneficiarioEscolha == 2) {
-                    escolhaStringExame = "Consulta";
-                    coberturaExame = Cobertura.CONSULTA;
-                } else {
-                    escolhaStringExame = "Internacao";
-                    coberturaExame = Cobertura.INTERNACAO;
-                }
-
-                System.out.println("Você esta agendando um: " + escolhaStringExame + ".");
-                System.out.println("Datas disponíveis para realização do " + escolhaStringExame + ":");
-                LocalDate dataHoje = LocalDate.now();
+                beneficiarioEscolha = InputValidator.verificarInput1ToN(beneficiarioEscolha, 3);
+                Cobertura coberturaExame = escolhaExame(beneficiarioEscolha);
+                System.out.println("Datas disponíveis para realização do " + coberturaExame + ":");
 
                 if (coberturaExame.equals(Cobertura.INTERNACAO)) {
-                    System.out.println("Selecione o dia: ");
-                    System.out.println("Datas disponiveis: ");
-                    for (int i = 1; i < 5; i++) {
-                        LocalDate dataParaExame = dataHoje.plusDays(i);
-                        System.out.println(i + " - " + dataParaExame.format(formatter));
-                    }
-                    Integer diaSelecionado = InputValidator.getClienteInput();
-                    while (diaSelecionado < 1 || diaSelecionado >= 5) {
-                        System.out.println("Escolha uma das opcoes disponiveis");
-                        diaSelecionado = InputValidator.getClienteInput();
-                    }
-                    LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                    System.out.println("Digite a data prevista da saida da internacao");
-                    for (int i = 1; i < 5; i++) {
-                        LocalDate dataParaExame = dataHoje.plusDays((i + 10));
-                        System.out.println(i + " - " + dataParaExame.format(formatter));
-                    }
-                    Integer dataSaidaSelecionada = InputValidator.getClienteInput();
-                    while (dataSaidaSelecionada < 1 || dataSaidaSelecionada > 5) {
-                        System.out.println("Escolha uma das opcoes disponiveis");
-                        dataSaidaSelecionada = InputValidator.getClienteInput();
-                    }
-                    LocalDate dataSaida = dataHoje.plusDays(dataSaidaSelecionada + 10);
-
-                    System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
-                    Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, dataSaida);
+                    LocalDate[] datas = diasInternacao();
+                    System.out.println(coberturaExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + datas[0].format(formatter));
+                    Exame exame = new Exame(beneficiario.getNome(), coberturaExame, datas[0], datas[1]);
                     listaExames.add(exame);
                 } else {
-                    System.out.println("Selecione o dia: ");
-                    System.out.println("Datas disponiveis: ");
-                    for (int i = 1; i < 5; i++) {
-                        LocalDate dataParaExame = dataHoje.plusDays(i);
-                        System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
-                    }
-                    Integer diaSelecionado = InputValidator.getClienteInput();
-                    while (diaSelecionado < 1 || diaSelecionado >= 5) {
-                        System.out.println("Escolha uma das opcoes disponiveis");
-                        diaSelecionado = InputValidator.getClienteInput();
-                    }
-                    LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                    System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
+                    LocalDate dataSelecionada = diaExame();
+                    System.out.println(coberturaExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                     Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor());
                     listaExames.add(exame);
                 }
 
             }
             case Cobertura.TOTAL -> {
-                System.out.println("Você pode realizar Exames e Consultas!");
-                System.out.println("O que quer agendar?");
-                System.out.println("1 - EXAME");
-                System.out.println("2 - CONSULTA");
-                System.out.println("3 - Cancelar");
+                VitaCareMenu.exibirMenuExame(beneficiario);
                 Integer beneficiarioEscolha = InputValidator.getClienteInput();
-                if (beneficiarioEscolha.equals(3)) {
-                    return;
-                }
-                while (beneficiarioEscolha < 1 || beneficiarioEscolha > 3) {
-                    System.out.println("Por favor, escolha 1, 2 ou 3");
-                    beneficiarioEscolha = InputValidator.getClienteInput();
-                }
-                String escolhaStringExame;
-                Cobertura coberturaExame;
-                if (beneficiarioEscolha == 1) {
-                    escolhaStringExame = "Exame";
-                    coberturaExame = Cobertura.EXAME;
-                } else {
-                    escolhaStringExame = "Consulta";
-                    coberturaExame = Cobertura.CONSULTA;
-                }
-                System.out.println("Você esta agendando um: " + escolhaStringExame + ".");
-                System.out.println("Datas disponíveis para realização do " + escolhaStringExame + ":");
-                LocalDate dataHoje = LocalDate.now();
-                System.out.println("Selecione o dia: ");
-                System.out.println("Datas disponiveis: ");
-                for (int i = 1; i < 5; i++) {
-                    LocalDate dataParaExame = dataHoje.plusDays(i);
-                    System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
-                }
-                Integer diaSelecionado = InputValidator.getClienteInput();
-                while (diaSelecionado < 1 || diaSelecionado >= 5) {
-                    System.out.println("Escolha uma das opcoes disponiveis");
-                    diaSelecionado = InputValidator.getClienteInput();
-                }
-                LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
+                beneficiarioEscolha = InputValidator.verificarInput1ToN(beneficiarioEscolha, 2);
+                Cobertura coberturaExame = escolhaExame(beneficiarioEscolha);
+
+                System.out.println("Você esta agendando um: " + coberturaExame + ".");
+                LocalDate dataSelecionada = diaExame();
+
+                System.out.println(coberturaExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                 Exame exame = new Exame(beneficiario.getNome(), coberturaExame, dataSelecionada, new Doutor());
                 listaExames.add(exame);
 
             }
             case Cobertura.EXAME -> {
-                System.out.println("Você pode realizar Exames");
-                System.out.println("O que quer agendar?");
-                System.out.println("1 - EXAME");
-                System.out.println("2 - Cancelar");
+                VitaCareMenu.exibirMenuExame(beneficiario);
 
                 Integer beneficiarioEscolha = InputValidator.getClienteInput();
-                if (beneficiarioEscolha.equals(2)) {
-                    return;
-                }
-                while (beneficiarioEscolha < 1 || beneficiarioEscolha > 2) {
-                    System.out.println("Por favor, escolha 1 ou 2");
-                    beneficiarioEscolha = InputValidator.getClienteInput();
-                }
-                String escolhaStringExame;
-                if (beneficiarioEscolha == 1) {
-                    escolhaStringExame = "Exame";
-                } else {
-                    escolhaStringExame = "";
-                }
-                System.out.println("Você esta agendando um: " + escolhaStringExame + ".");
-                System.out.println("Datas disponíveis para realização do " + escolhaStringExame + ":");
-                LocalDate dataHoje = LocalDate.now();
-                System.out.println("Selecione o dia: ");
-                System.out.println("Datas disponiveis: ");
-                for (int i = 1; i < 5; i++) {
-                    LocalDate dataParaExame = dataHoje.plusDays(i);
-                    System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
-                }
-                Integer diaSelecionado = InputValidator.getClienteInput();
-                while (diaSelecionado < 1 || diaSelecionado >= 5) {
-                    System.out.println("Escolha uma das opcoes disponiveis");
-                    diaSelecionado = InputValidator.getClienteInput();
-                }
-                LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
+                beneficiarioEscolha = InputValidator.verificarInput1ToN(beneficiarioEscolha, 1);
+                Cobertura cobertura = escolhaExame(beneficiarioEscolha);
+
+                LocalDate dataSelecionada = diaExame();
+                System.out.println(cobertura + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
+
                 Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor());
                 listaExames.add(exame);
             }
             case Cobertura.CONSULTA -> {
-                System.out.println("Você pode realizar Consultas");
-                System.out.println("O que quer agendar?");
-                System.out.println("1 - Consulta");
-                System.out.println("2 - Cancelar");
-
+                VitaCareMenu.exibirMenuExame(beneficiario);
                 Integer beneficiarioEscolha = InputValidator.getClienteInput();
-                if (beneficiarioEscolha.equals(2)) {
-                    return;
-                }
-                while (beneficiarioEscolha < 1 || beneficiarioEscolha > 2) {
-                    System.out.println("Por favor, escolha 1 ou 2");
-                    beneficiarioEscolha = InputValidator.getClienteInput();
-                }
-                String escolhaStringExame;
-                if (beneficiarioEscolha == 1) {
-                    escolhaStringExame = "Consulta";
-                } else {
-                    escolhaStringExame = "";
-                }
-                System.out.println("Você esta agendando um: " + escolhaStringExame + ".");
-                System.out.println("Datas disponíveis para realização do " + escolhaStringExame + ":");
-                LocalDate dataHoje = LocalDate.now();
-                System.out.println("Selecione o dia: ");
-                System.out.println("Datas disponiveis: ");
-                for (int i = 1; i < 5; i++) {
-                    LocalDate dataParaExame = dataHoje.plusDays(i);
-                    System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
-                }
-                Integer diaSelecionado = InputValidator.getClienteInput();
-                while (diaSelecionado < 1 || diaSelecionado >= 5) {
-                    System.out.println("Escolha uma das opcoes disponiveis");
-                    diaSelecionado = InputValidator.getClienteInput();
-                }
-                LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
-                System.out.println(escolhaStringExame + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
+                beneficiarioEscolha = InputValidator.verificarInput1ToN(beneficiarioEscolha, 2);
+                Cobertura cobertura = Cobertura.CONSULTA;
+
+                LocalDate dataSelecionada = diaExame();
+                System.out.println(cobertura + " para " + beneficiario.getNome() + " marcado(a) para o dia " + dataSelecionada.format(formatter));
                 Exame exame = new Exame(beneficiario.getNome(), beneficiario.getCobertura(), dataSelecionada, new Doutor());
                 listaExames.add(exame);
             }
         }
+    }
 
+    static Cobertura escolhaExame(Integer escolha) {
+        Cobertura cobertura;
+        switch (escolha){
+            case 1 -> cobertura = Cobertura.EXAME;
+            case 2 -> cobertura = Cobertura.CONSULTA;
+            case 3 -> cobertura = Cobertura.INTERNACAO;
+            default -> cobertura = Cobertura.EXAME;
+        }
+        System.out.println("Você esta agendando um: " + cobertura + ".");
+        return cobertura;
+    }
+
+    static LocalDate[] diasInternacao(){
+        System.out.println("Selecione o dia: ");
+        System.out.println("Datas disponiveis: ");
+        for (int i = 1; i < 5; i++) {
+            LocalDate dataParaExame = dataHoje.plusDays(i);
+            System.out.println(i + " - " + dataParaExame.format(formatter));
+        }
+
+        Integer diaSelecionado = InputValidator.getClienteInput();
+        diaSelecionado = InputValidator.verificarInput1ToN(diaSelecionado, 5);
+        LocalDate dataEntrada = dataHoje.plusDays(diaSelecionado);
+
+        System.out.println("Digite a data prevista da saida da internacao");
+        for (int i = 1; i < 5; i++) {
+            LocalDate dataParaExame = dataHoje.plusDays((i + 10));
+            System.out.println(i + " - " + dataParaExame.format(formatter));
+        }
+        Integer dataSaidaSelecionada = InputValidator.getClienteInput();
+        dataSaidaSelecionada = InputValidator.verificarInput1ToN(dataSaidaSelecionada, 5);
+        LocalDate dataSaida = dataHoje.plusDays(dataSaidaSelecionada + 10);
+
+        LocalDate[] datas = new LocalDate[]{dataEntrada, dataSaida};
+        return datas;
+    }
+
+    static LocalDate diaExame(){
+        System.out.println("Selecione o dia: ");
+        System.out.println("Datas disponiveis: ");
+        for (int i = 1; i < 5; i++) {
+            LocalDate dataParaExame = dataHoje.plusDays(i);
+            System.out.println(i + " - " + dataParaExame.format(formatter) + " as 15:00");
+        }
+        Integer diaSelecionado = InputValidator.getClienteInput();
+        diaSelecionado = InputValidator.verificarInput1ToN(diaSelecionado, 4);
+        LocalDate dataSelecionada = dataHoje.plusDays(diaSelecionado);
+        return dataSelecionada;
+    }
+
+    static {
+        LocalDate date = LocalDate.of(2020, 05, 15);
+        Exame exame = new Exame("vitor", Cobertura.CONSULTA, date, new Doutor());
+        listaExames.add(exame);
     }
 
 }

@@ -204,7 +204,7 @@ public class VitaCare {
                     Beneficiario beneficiarioSelecionado = listaUsuarios.get(usuarioSelecionado - 1);
                     VitaCareMenu.exibirMenuAposentar(beneficiarioSelecionado);
                     Integer aposentar = InputValidator.getClienteInput();
-                    aposentar = InputValidator.verificarInput1To2(aposentar);
+                    aposentar = InputValidator.verificarInput1ToN(aposentar, 2);
                     VitaCare.aposentarBeneficiario(aposentar, beneficiarioSelecionado);
 
                     VitaCareMenu.exibirVoltarMenu();
@@ -234,7 +234,7 @@ public class VitaCare {
                     if(eTitular){
                         VitaCareMenu.exibirCoberturaBase(beneficiarioMudarCobertura);
                         coberturaSelecionada = InputValidator.getClienteInput();
-                        coberturaSelecionada = InputValidator.verificarInput1To4(coberturaSelecionada);
+                        coberturaSelecionada = InputValidator.verificarInput1ToN(coberturaSelecionada,4);
                         Cobertura cobertura = escolhaCobertura(coberturaSelecionada);
                         beneficiarioMudarCobertura.setCobertura(cobertura);
 
@@ -242,7 +242,7 @@ public class VitaCare {
                     } else {
                         VitaCareMenu.exibirCoberturaBase(beneficiarioMudarCobertura);
                         coberturaSelecionada = InputValidator.getClienteInput();
-                        coberturaSelecionada = InputValidator.verificarInput1To3(coberturaSelecionada);
+                        coberturaSelecionada = InputValidator.verificarInput1ToN(coberturaSelecionada, 3);
                         Cobertura cobertura = escolhaCobertura(coberturaSelecionada);
                         beneficiarioMudarCobertura.setCobertura(cobertura);
 
@@ -292,7 +292,7 @@ public class VitaCare {
 
     }
 
-    static Cobertura escolhaCobertura(Integer escolha){
+     static Cobertura escolhaCobertura(Integer escolha){
         Cobertura cobertura;
         if (escolha == 1) {
             cobertura = Cobertura.EXAME;
@@ -349,7 +349,7 @@ public class VitaCare {
 
         VitaCareMenu.exibirCoberturaBase();
         Integer tipoCobertura = InputValidator.getClienteInput();
-        tipoCobertura = InputValidator.verificarInput1To3(tipoCobertura);
+        tipoCobertura = InputValidator.verificarInput1ToN(tipoCobertura, 3);
         Cobertura cobertura = escolhaCobertura(tipoCobertura);
         dadosDependente.add(nomeDependente);
         dadosDependente.add(dataNascimentoDependente);
@@ -363,7 +363,7 @@ public class VitaCare {
 
         VitaCareMenu.exibirMenuFilhoConjuge();
         Integer tipoDependenteSelecionado = InputValidator.getClienteInput();
-        tipoDependenteSelecionado = InputValidator.verificarInput1To2(tipoDependenteSelecionado);
+        tipoDependenteSelecionado = InputValidator.verificarInput1ToN(tipoDependenteSelecionado, 2);
         TipoDependente tipoDependente = escolhaDependente(tipoDependenteSelecionado);
 
         System.out.println("Nome do dependente: ");
@@ -381,7 +381,7 @@ public class VitaCare {
 
         VitaCareMenu.exibirCoberturaBase();
         Integer tipoCobertura = InputValidator.getClienteInput();
-        tipoCobertura = InputValidator.verificarInput1To3(tipoCobertura);
+        tipoCobertura = InputValidator.verificarInput1ToN(tipoCobertura,3);
         Cobertura cobertura = escolhaCobertura(tipoCobertura);
 
         dadosDependente.add(nomeDependente);
@@ -489,7 +489,7 @@ public class VitaCare {
 
         VitaCareMenu.exibirCoberturaBase();
         Integer opcaoCoberturaTitular = InputValidator.getClienteInput();
-        opcaoCoberturaTitular = InputValidator.verificarInput1To3(opcaoCoberturaTitular);
+        opcaoCoberturaTitular = InputValidator.verificarInput1ToN(opcaoCoberturaTitular, 3);
 
         Cobertura coberturaTitular = escolhaCobertura(opcaoCoberturaTitular);
         dadosUsuarios.add(coberturaTitular);

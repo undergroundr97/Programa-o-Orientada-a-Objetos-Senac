@@ -33,6 +33,35 @@ public class VitaCareMenu {
         System.out.println("3 - TOTAL");
     }
 
+    public static void exibirMenuExame(Beneficiario beneficiario){
+        Cobertura cobertura = beneficiario.getCobertura();
+        switch (cobertura){
+            case INTERNACAO -> {
+                System.out.println("Você pode realizar Exames, Consultas e Internaçoes!");
+                System.out.println("O que quer agendar?");
+                System.out.println("1 - EXAME");
+                System.out.println("2 - CONSULTA");
+                System.out.println("3 - INTERNAÇAO");
+            }
+            case TOTAL -> {
+                System.out.println("Você pode realizar Exames e Consultas!");
+                System.out.println("O que quer agendar?");
+                System.out.println("1 - EXAME");
+                System.out.println("2 - CONSULTA");
+            }
+            case EXAME -> {
+                System.out.println("Você pode realizar Exames");
+                System.out.println("O que quer agendar?");
+                System.out.println("1 - EXAME");
+            }
+            case CONSULTA ->{
+                System.out.println("Você pode realizar Exames");
+                System.out.println("O que quer agendar?");
+                System.out.println("1 - CONSULTA");
+            }
+        }
+    }
+
     public static void exibirCoberturaBase(Beneficiario beneficiario){
         System.out.println("O beneficiario selecionado foi: " + beneficiario.getNome());
         System.out.println("A cobertura atual do beneficiario e: " + beneficiario.getCobertura());
