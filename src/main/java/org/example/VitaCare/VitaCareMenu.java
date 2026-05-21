@@ -32,6 +32,7 @@ public class VitaCareMenu {
         System.out.println("2 - CONSULTA");
         System.out.println("3 - TOTAL");
     }
+
     public static void exibirCoberturaBase(Beneficiario beneficiario){
         System.out.println("O beneficiario selecionado foi: " + beneficiario.getNome());
         System.out.println("A cobertura atual do beneficiario e: " + beneficiario.getCobertura());
